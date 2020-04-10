@@ -1,0 +1,14 @@
+#Game entities in the following format
+#entities:
+#   label: text label displayed to user
+#   tile: id of tile object defined in tiles.yml
+
+
+#Player object
+player:
+   label: 'player'
+   tile: 'player'
+   
+#Empty object for debug
+empty:
+   label: ''

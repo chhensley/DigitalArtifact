@@ -1,0 +1,11 @@
+#Files defining game colors
+colors:
+   - 'data/colors.yml'
+   
+#Files defining entity tiles
+tiles:
+   - 'data/tiles.yml'
+   
+#Files defining finished entities
+entities:
+   - 'data/entities.yml'

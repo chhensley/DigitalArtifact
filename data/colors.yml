@@ -1,0 +1,10 @@
+#Game colors in the following format
+#color_id: hex RGB color value
+
+#Background colors
+background00: '0x000000'
+
+#Terminal foreground colors
+term00: '0x41FF00'
+term01: '0xFFBF00'
+term02: '0xFFFFFF'

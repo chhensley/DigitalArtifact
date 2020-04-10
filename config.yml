@@ -1,0 +1,8 @@
+title: 'Digital Artifact'
+terminal:
+   height: 80
+   width: 80
+   fontSize: 10
+map:
+   height: 200
+   width: 200
