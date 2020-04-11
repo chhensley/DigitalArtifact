@@ -15,16 +15,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import chensley.da.ecs.EntityManager;
+import chensley.da.ecs.factory.ColorFactory;
 import chensley.da.ecs.factory.EntityFactory;
 
 public class DigitalArtifact {
 	
 	private static final ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
 	private static final Logger logger = Logger.getLogger(DigitalArtifact.class.getName());
-	private static final Config config = loadConfig("config.yml", mapper, logger);
 	private static final EntityFactory factory = load("manifest.yml", mapper, logger);
-	private static final EntityManager EntityMgr = new EntityManager(factory);
-
+	private static final Config config = loadConfig("config.yml", factory.colors(), mapper, logger);
+	private static final EntityManager entityMgr = new EntityManager(factory);
+	
 	//Converts an array node to an array
 	private static String[] asArray(JsonNode node) {
 		String[] array = new String[node.size()];
@@ -43,8 +44,8 @@ public class DigitalArtifact {
 		File file = new File(path);
 		try {
 			JsonNode root = mapper.readTree(file);
-			factory.loadColors(asArray(root.get("colors")));
-			factory.loadTiles(asArray(root.get("tiles")));
+			factory.colors().load(asArray(root.get("colors")));
+			factory.tiles().load(asArray(root.get("tiles")));
 			factory.load(asArray(root.get("entities")));
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "failed to load data files", e);
@@ -55,10 +56,10 @@ public class DigitalArtifact {
 	}
 	
 	//Creates new config object from external configuration file
-	private static Config loadConfig(String path, ObjectMapper mapper, Logger logger) {
+	private static Config loadConfig(String path, ColorFactory colors, ObjectMapper mapper, Logger logger) {
 		Config config = null;
 		try {
-			config = new Config(path, mapper, logger);
+			config = new Config(path, colors, mapper, logger);
 		} catch (IOException e) {
 			logger.log(Level.SEVERE, "failed to load configuration files", e);
 			System.exit(1);
@@ -68,8 +69,9 @@ public class DigitalArtifact {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		UserInterface gui = new UserInterface();
+		UserInterface.setConfig(config);
 		
+		UserInterface gui = new UserInterface();
 		gui.display();
 	}
 }

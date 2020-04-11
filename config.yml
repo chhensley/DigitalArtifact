@@ -3,6 +3,7 @@ terminal:
    height: 80
    width: 80
    fontSize: 10
+   background: 'background00'
 map:
    height: 200
    width: 200

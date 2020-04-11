@@ -48,10 +48,12 @@ public class EntityFactory extends Factory<Entity> {
 	}
 	
 	//Access underlying factories
-	public void loadColors(String ...paths) throws IOException { colors.load(paths); }
+	public ColorFactory colors() { return colors; }
+	public TileFactory tiles() { return tiles; }
+	/*public void loadColors(String ...paths) throws IOException { colors.load(paths); }
 	public String color(String id) { return colors.get(id); }
 	
 	public void loadTiles(String ...paths) throws IOException { tiles.load(paths); }
-	public Tile tile(String id) { return tiles.get(id); }
+	public Tile tile(String id) { return tiles.get(id); }*/
 
 }

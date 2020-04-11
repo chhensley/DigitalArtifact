@@ -13,6 +13,8 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import chensley.da.ecs.factory.ColorFactory;
+
 /**
  * Game configuration loaded from external file
  */
@@ -34,18 +36,21 @@ public class Config {
 	//Simulated main terminal settings
 	public class Terminal {
 		private final int fontSize;
-		private final int height;
-		private final int width;
+		private final double height;
+		private final double width;
+		private final String background;
 		
-		Terminal(int width, int height, int fontSize) {
+		Terminal(int width, int height, int fontSize, String background) {
 			this.width = width;
 			this.height = height;
 			this.fontSize = fontSize;
+			this.background = background;
 		}
 		
+		public String background() { return background; }
 		public int fontSize() { return fontSize; }
-		public int height() { return height; }
-		public int width() { return width; }
+		public double height() { return height; }
+		public double width() { return width; }
 	}
 	
 	private final String title;
@@ -57,13 +62,15 @@ public class Config {
 	 * Loads configuration data from external file
 	 * @param path
 	 * 		Path to configuration file
+	 * @param colors
+	 * 		Initialized color factory
 	 * @param mapper
 	 * 		Object mapper
 	 * @param logger
 	 * 		Logger
 	 * @throws IOException
 	 */
-	Config(String path, ObjectMapper mapper, Logger logger) throws IOException {
+	Config(String path, ColorFactory colors, ObjectMapper mapper, Logger logger) throws IOException {
 		logger.log(Level.INFO, "loading file: {0}", path);
 		File file = new File(path);
 		JsonNode root = mapper.readTree(file);
@@ -76,7 +83,8 @@ public class Config {
 		term = new Terminal(
 			termNode.get("width").asInt(),
 			termNode.get("height").asInt(),
-			termNode.get("fontSize").asInt()
+			termNode.get("fontSize").asInt(),
+			colors.get(termNode.get("background").asText())
 		);	
 	}
 	
