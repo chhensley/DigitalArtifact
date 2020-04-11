@@ -5,6 +5,7 @@
  **/
 package chensley.da;
 
+import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -36,21 +37,21 @@ public class Config {
 	//Simulated main terminal settings
 	public class Terminal {
 		private final int fontSize;
-		private final double height;
-		private final double width;
-		private final int background;
+		private final int height;
+		private final int width;
+		private final Color background;
 		
-		Terminal(int width, int height, int fontSize, int background) {
+		Terminal(int width, int height, int fontSize, Color background) {
 			this.width = width;
 			this.height = height;
 			this.fontSize = fontSize;
 			this.background = background;
 		}
 		
-		public int background() { return background; }
+		public Color background() { return background; }
 		public int fontSize() { return fontSize; }
-		public double height() { return height; }
-		public double width() { return width; }
+		public int height() { return height; }
+		public int width() { return width; }
 	}
 	
 	private final String title;
@@ -84,7 +85,7 @@ public class Config {
 			termNode.get("width").asInt(),
 			termNode.get("height").asInt(),
 			termNode.get("fontSize").asInt(),
-			colors.get(termNode.get("background").asText())
+			new Color(colors.get(termNode.get("background").asText()))
 		);	
 	}
 	

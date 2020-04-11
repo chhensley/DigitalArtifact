@@ -17,6 +17,7 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import chensley.da.ecs.EntityManager;
 import chensley.da.ecs.factory.ColorFactory;
 import chensley.da.ecs.factory.EntityFactory;
+import chensley.da.ui.GUI;
 
 public class DigitalArtifact {
 	
@@ -68,5 +69,7 @@ public class DigitalArtifact {
 	}
 	
 	public static void main(String[] args) throws IOException {
+		GUI gui = new GUI(config, logger);
+		gui.launch();
 	}
 }
