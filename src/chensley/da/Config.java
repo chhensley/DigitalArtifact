@@ -38,16 +38,16 @@ public class Config {
 		private final int fontSize;
 		private final double height;
 		private final double width;
-		private final String background;
+		private final int background;
 		
-		Terminal(int width, int height, int fontSize, String background) {
+		Terminal(int width, int height, int fontSize, int background) {
 			this.width = width;
 			this.height = height;
 			this.fontSize = fontSize;
 			this.background = background;
 		}
 		
-		public String background() { return background; }
+		public int background() { return background; }
 		public int fontSize() { return fontSize; }
 		public double height() { return height; }
 		public double width() { return width; }

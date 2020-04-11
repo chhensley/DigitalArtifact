@@ -5,18 +5,16 @@
  **/
 package chensley.da.ecs.factory;
 
+import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import javafx.scene.paint.Color;
-
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import chensley.da.Util;
 import chensley.da.ecs.components.Tile;
 
-@SuppressWarnings("restriction") //Incorrectly tags javafx Color
 public class TileFactory extends Factory<Tile>{
 	private final ColorFactory colorFactory;
 	
@@ -36,14 +34,14 @@ public class TileFactory extends Factory<Tile>{
 			return null;
 		}
 		
-		String color = colorFactory.get(colorId);
+		Integer color = colorFactory.get(colorId);
 		
 		if(color == null) {
 			logger.log(Level.SEVERE, "unknown color: {0}", colorId);
 			return null;
 		}
 		
-		return new Tile(icon, Color.web(color, alpha));
+		return new Tile(icon, Util.color(color, alpha));
 	}
 
 }

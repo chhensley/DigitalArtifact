@@ -37,7 +37,6 @@ public class DigitalArtifact {
 		return array;
 	}
 	
-	
 	//Creates a new entity factory using the data files defined in a manifest file
 	private static EntityFactory load(String path, ObjectMapper mapper, Logger logger) {
 		EntityFactory factory = new EntityFactory(mapper, logger);
@@ -69,9 +68,5 @@ public class DigitalArtifact {
 	}
 	
 	public static void main(String[] args) throws IOException {
-		UserInterface.setConfig(config);
-		
-		UserInterface gui = new UserInterface();
-		gui.display();
 	}
 }

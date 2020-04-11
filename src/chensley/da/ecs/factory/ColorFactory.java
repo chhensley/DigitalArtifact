@@ -13,14 +13,14 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 /**
  * Factory for hex RGB color strings
  */
-public class ColorFactory extends Factory<String> {
+public class ColorFactory extends Factory<Integer> {
 	public ColorFactory(ObjectMapper mapper, Logger logger) {
 		super(mapper, logger);
 	}
 
 	@Override
-	protected String deserialize(JsonNode node) {
-		return node.asText();
+	protected Integer deserialize(JsonNode node) {
+		return node.asInt();
 	}
 
 }

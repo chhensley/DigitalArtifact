@@ -5,9 +5,8 @@
  **/
 package chensley.da.ecs.components;
 
-import javafx.scene.paint.Color;
+import java.awt.Color;
 
-@SuppressWarnings("restriction") //Incorrectly tags javafx Color
 public class Tile {
 	private final String icon;
 	private final Color color;
