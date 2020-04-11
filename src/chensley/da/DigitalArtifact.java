@@ -17,6 +17,8 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import chensley.da.ecs.EntityManager;
 import chensley.da.ecs.factory.ColorFactory;
 import chensley.da.ecs.factory.EntityFactory;
+import chensley.da.message.Message.MessageId;
+import chensley.da.message.MessageManager;
 import chensley.da.ui.GUI;
 
 public class DigitalArtifact {
@@ -26,6 +28,7 @@ public class DigitalArtifact {
 	private static final EntityFactory factory = load("manifest.yml", mapper, logger);
 	private static final Config config = loadConfig("config.yml", factory.colors(), mapper, logger);
 	private static final EntityManager entityMgr = new EntityManager(factory);
+	private static final MessageManager msgMgr = new MessageManager(config, entityMgr, logger);
 	
 	//Converts an array node to an array
 	private static String[] asArray(JsonNode node) {
