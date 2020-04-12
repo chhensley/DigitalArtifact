@@ -23,7 +23,7 @@ public class Util {
 	 */
 	public static Color color(int rgb, double alpha) {
 		int alphaHex = (int)Math.round(alpha * 0xFF);
-		return new Color((rgb * 0x100) + alphaHex, true);
+		return new Color(rgb + (alphaHex * 0x1000000), true);
 	}
 	
 	/**
