@@ -20,7 +20,7 @@ public class ColorFactory extends Factory<Integer> {
 
 	@Override
 	protected Integer deserialize(JsonNode node) {
-		return node.asInt();
+		return Integer.parseInt(node.asText().substring(2), 16);
 	}
 
 }
