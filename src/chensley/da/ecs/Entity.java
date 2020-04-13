@@ -23,9 +23,10 @@ public class Entity {
 	}
 	
 	public Entity(Entity entity) {
-		this.label = entity.label();
-		this.tile = entity.tile();
-		this.position = entity.position();
+		this.label = entity.label;
+		this.setTile(entity.tile);
+		this.setPosition(entity.position);
+		return;
 	}
 	
 	/**

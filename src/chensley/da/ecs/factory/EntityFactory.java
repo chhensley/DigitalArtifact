@@ -5,7 +5,6 @@
  **/
 package chensley.da.ecs.factory;
 
-import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -13,7 +12,6 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import chensley.da.ecs.Entity;
-import chensley.da.ecs.components.Tile;
 
 /**
  * Main factory for generating entities and components
@@ -50,10 +48,5 @@ public class EntityFactory extends Factory<Entity> {
 	//Access underlying factories
 	public ColorFactory colors() { return colors; }
 	public TileFactory tiles() { return tiles; }
-	/*public void loadColors(String ...paths) throws IOException { colors.load(paths); }
-	public String color(String id) { return colors.get(id); }
-	
-	public void loadTiles(String ...paths) throws IOException { tiles.load(paths); }
-	public Tile tile(String id) { return tiles.get(id); }*/
 
 }
