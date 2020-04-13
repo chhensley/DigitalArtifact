@@ -23,6 +23,8 @@ public class EntityManager extends EntityView {
 		this.factory = factory;
 	}
 	
+	public EntityFactory factory() { return factory; }
+	
 	/**
 	 * Creates a new entity
 	 * @param id
