@@ -6,6 +6,7 @@
 package chensley.da.ui;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,8 +49,11 @@ public class CanvasPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//Clears any existing characters
+		g.setFont(new Font("monospace", Font.PLAIN, config.term().fontSize()));
 		g.setColor(config.term().background());
-		g.fillRect(0,  0, config.term().width() * config.term().fontSize(), config.term().height() * config.term().fontSize());
+		g.fillRect(0,  0, 
+				config.term().width() * config.term().fontSize() + config.term().fontSize(), 
+				config.term().height() * config.term().fontSize() + config.term().fontSize());
 		
 		//Draw each unicode character
 		for(int x = 0; x < config.term().width(); x++) {
@@ -57,7 +61,10 @@ public class CanvasPanel extends JPanel {
 				Symbol symbol = canvas.get(x * config.term().width() + y);
 				if(symbol != null) {
 					g.setColor(symbol.color);
-					g.drawString(symbol.icon, x * config.term().fontSize(), y * config.term().fontSize() + config.term().fontSize());
+					g.drawString(symbol.icon, 
+							x * config.term().fontSize()  + config.term().fontSize()/2, 
+							y * config.term().fontSize() + config.term().fontSize()
+					);
 				}
 			}
 		}

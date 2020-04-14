@@ -11,4 +11,5 @@ player:
    
 #Empty object for debug
 empty:
-   label: ''
+   label: 'empty'
+   tile: 'empty'

@@ -12,6 +12,7 @@ import chensley.da.ecs.factory.EntityFactory;
  */
 public class EntityManager extends EntityView {
 	private final EntityFactory factory;
+	private Entity player;
 	
 	/**
 	 * Constructor
@@ -24,6 +25,8 @@ public class EntityManager extends EntityView {
 	}
 	
 	public EntityFactory factory() { return factory; }
+	public Entity player() { return player; }
+	public void setPlayer(Entity player) { this.player = player; } 
 	
 	/**
 	 * Creates a new entity

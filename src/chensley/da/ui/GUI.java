@@ -6,6 +6,7 @@
 package chensley.da.ui;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -20,6 +21,7 @@ import chensley.da.Config;
 public class GUI {
 	private final JFrame window;
 	private final Logger logger;
+	private CanvasPanel termPanel;
 	
 	//Builds main game window
 	private JFrame window(Config config) {
@@ -33,8 +35,8 @@ public class GUI {
 	
 	//Builds the simulated terminal panel
 	private CanvasPanel termPanel(Config config) {
-		int width = config.term().width() * config.term().fontSize();
-		int height = config.term().height() * config.term().fontSize();
+		int width = config.term().width() * config.term().fontSize() + config.term().fontSize()/2;
+		int height = config.term().height() * config.term().fontSize() + config.term().fontSize()/2;
 		
 		CanvasPanel termPanel = new CanvasPanel(config);
 		termPanel.setPreferredSize(new Dimension(width, height));
@@ -48,7 +50,8 @@ public class GUI {
 		
 		logger.log(Level.INFO, "building ui");
 		window = window(config);
-		window.getContentPane().add(termPanel(config), BorderLayout.PAGE_START);
+		termPanel = termPanel(config);
+		window.getContentPane().add(termPanel, BorderLayout.PAGE_START);
 		
 		window.pack();
 	}
@@ -58,5 +61,25 @@ public class GUI {
 		window.setVisible(true);
 		window.requestFocusInWindow();
 		logger.log(Level.INFO, "starting ui");
+	}
+	
+	//Draw to simualted terminal canvas
+	public void termClear() {
+		termPanel.clear();
+	}
+	
+	/**
+	 * Draws a single item on the terminal panel
+	 * @param icon
+	 * 		Unicode character
+	 * @param color
+	 * 		AWT color
+	 * @param x
+	 * 		X position
+	 * @param y
+	 * 		Y position
+	 */
+	public void termDraw(String icon, Color color, int x, int y) {
+		termPanel.draw(icon, color, x, y);
 	}
 }

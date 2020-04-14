@@ -10,12 +10,12 @@ package chensley.da.message;
  */
 public class Message {
 	public enum MessageId {
-		APP_START
+		APP_START,
+		TERM_REFRESH
 	}
 	
 	private final MessageId id;
 	private final Object body;
-	
 	
 	public Message(MessageId id, Object body) {
 		this.id = id;
