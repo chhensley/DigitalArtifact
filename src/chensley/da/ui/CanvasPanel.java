@@ -23,12 +23,16 @@ public class CanvasPanel extends JPanel {
 	
 	//A single unicode character
 	private class Symbol {
-		public Symbol(String icon, Color color) {
+		public Symbol(String icon, Color color, double xOffset, double yOffset) {
 			this.icon = icon;
 			this.color = color;
+			this.xOffset = xOffset;
+			this.yOffset = yOffset;
 		}
 		public String icon;
 		public Color color;
+		public double xOffset;
+		public double yOffset;
 	}
 	
 	
@@ -62,8 +66,8 @@ public class CanvasPanel extends JPanel {
 				if(symbol != null) {
 					g.setColor(symbol.color);
 					g.drawString(symbol.icon, 
-							x * config.term().fontSize()  + config.term().fontSize()/2, 
-							y * config.term().fontSize() + config.term().fontSize()
+							x * config.term().fontSize()  + config.term().fontSize()/2 + (int)(config.term().fontSize() * symbol.xOffset), 
+							y * config.term().fontSize() + config.term().fontSize() + (int)(config.term().fontSize() * symbol.yOffset)
 					);
 				}
 			}
@@ -89,8 +93,8 @@ public class CanvasPanel extends JPanel {
 	 * @param y
 	 * 		y position, as measured in characters from the top
 	 */
-	public void draw(String icon, Color color, int x, int y) { 
-		canvas.set(x * config.term().width() + y, new Symbol(icon, color));
+	public void draw(String icon, Color color, int x, int y, double xOffset, double yOffset) { 
+		canvas.set(x * config.term().width() + y, new Symbol(icon, color, xOffset, yOffset));
 	}
 
 }

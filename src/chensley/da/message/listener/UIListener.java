@@ -37,10 +37,10 @@ public class UIListener {
 		Tile empty = ctxt.mgr().factory().tiles().get("empty");
 		for(int x = 0; x < ctxt.config().term().width(); x++)
 			for(int y = 0; y < ctxt.config().term().height(); y++) {
-				gui.termDraw(empty.icon(), empty.color(), x, y);
+				gui.termDraw(empty.icon(), empty.color(), x, y, empty.xOffset(), empty.yOffset());
 			}
 		
-		//Set Upper and lower X bounds of visible area
+		//Set upper and lower X bounds of visible area
 		int minX = center.position().x() - ctxt.config().term().width() / 2;
 		if(minX < 0) {
 			minX = 0;
@@ -50,7 +50,7 @@ public class UIListener {
 		
 		int maxX = minX + ctxt.config().term().width();
 		
-		//Set uppar and lower Y bounds of visible area
+		//Set upper and lower Y bounds of visible area
 		int minY = center.position().y() - ctxt.config().term().height() / 2;
 		if(minY < 0) { 
 			minY = 0;
@@ -62,7 +62,9 @@ public class UIListener {
 		
 		//Draw entities
 		for(Entity entity : ctxt.mgr().between(minX, minY, maxX, maxY).with(Component.TILE)) {
-			gui.termDraw(entity.tile().icon(), entity.tile().color(), entity.position().x() - minX, entity.position().y() - minY);
+			gui.termDraw(entity.tile().icon(), entity.tile().color(), 
+					entity.position().x() - minX, entity.position().y() - minY, 
+					entity.tile().xOffset(), entity.tile().yOffset());
 		}
 	}
 	
@@ -73,10 +75,8 @@ public class UIListener {
 			msgMgr.publish(MessageId.TERM_REFRESH, ctxt.mgr().player());
 		});
 		
-		msgMgr.register(MessageId.TERM_REFRESH, (msg, ctxt)->{
-			SwingUtilities.invokeLater(()->{
-				drawVisible((Entity) msg, ctxt);
-			});
-		});
+		msgMgr.register(MessageId.TERM_REFRESH, (msg, ctxt)->
+			SwingUtilities.invokeLater(()->drawVisible((Entity) msg, ctxt))
+		);
 	}
 }

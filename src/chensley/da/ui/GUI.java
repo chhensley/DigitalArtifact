@@ -79,7 +79,7 @@ public class GUI {
 	 * @param y
 	 * 		Y position
 	 */
-	public void termDraw(String icon, Color color, int x, int y) {
-		termPanel.draw(icon, color, x, y);
+	public void termDraw(String icon, Color color, int x, int y, double xOffset, double yOffset) {
+		termPanel.draw(icon, color, x, y, xOffset, yOffset);
 	}
 }

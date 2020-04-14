@@ -3,6 +3,8 @@
 #   icon: string value used to physically represent entity
 #   color: predefined color
 #   alpha: transparency. 0.0 is full transparent. 1.0 is full opaque. Default: 1
+#   x_offset: offset for the x axis as a percentage of font size. Default: 0.0
+#   y_offset: offset for the y axist as a percentage of font size. Default: 0.0
 
 player:
    icon: '@'
@@ -12,4 +14,5 @@ empty:
    icon: "\u00B7"
    color: 'term00'
    alpha: 0.5
+   x_offset: 0.3
    

@@ -10,10 +10,14 @@ import java.awt.Color;
 public class Tile {
 	private final String icon;
 	private final Color color;
+	private final double xOffset;
+	private final double yOffset;
 	
-	public Tile(String icon, Color color) {
+	public Tile(String icon, Color color, double xOffset, double yOffset) {
 		this.icon = icon;
 		this.color = color;
+		this.xOffset = xOffset;
+		this.yOffset = yOffset;
 	}
 	
 	public String icon() {
@@ -22,5 +26,13 @@ public class Tile {
 	
 	public Color color() {
 		return color;
+	}
+	
+	public double xOffset() {
+		return xOffset;
+	}
+	
+	public double yOffset() { 
+		return yOffset;
 	}
 }

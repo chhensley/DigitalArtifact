@@ -5,7 +5,6 @@
  **/
 package chensley.da.ecs.factory;
 
-import java.awt.Color;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -25,9 +24,11 @@ public class TileFactory extends Factory<Tile>{
 
 	@Override
 	protected Tile deserialize(JsonNode node) {
-		String icon = node.get("icon").asText();
-		String colorId = node.get("color").asText();
-		double alpha = node.get("alpha") != null ? node.get("alpha").asDouble(1.0) : 1.0;
+		final String icon = node.get("icon").asText();
+		final String colorId = node.get("color").asText();
+		final double alpha = node.get("alpha") != null ? node.get("alpha").asDouble(1.0) : 1.0;
+		final double xOffset = node.get("x_offset") != null ? node.get("x_offset").asDouble() : 0.0;
+		final double yOffset = node.get("y_offset") != null ? node.get("y_offset").asDouble() : 0.0;
 		
 		if(icon == null || colorId == null) {
 			logger.log(Level.SEVERE, "invalid tile definition: {0}", node);
@@ -41,7 +42,7 @@ public class TileFactory extends Factory<Tile>{
 			return null;
 		}
 		
-		return new Tile(icon, Util.color(color, alpha));
+		return new Tile(icon, Util.color(color, alpha), xOffset, yOffset);
 	}
 
 }
