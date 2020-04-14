@@ -9,6 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import chensley.da.ecs.components.Position;
+
 /**
  * An iterable connection of entities
  */
@@ -24,6 +26,35 @@ public class EntityView implements Iterable<Entity> {
 	}
 	
 	/**
+	 * Returns true if the view is empty
+	 * @return
+	 * 		boolean
+	 */
+	public boolean isEmpty() {
+		return entities.isEmpty();
+	}
+	
+	/**
+	 * Returns a view with the subset of entities at a given position
+	 * @param x
+	 * 		X coordinate
+	 * @param y
+	 * 		Y coordinate
+	 * @return
+	 * 		All entities at the x, y position
+	 */
+	public EntityView at(int x, int y) {
+		List<Entity> view = new ArrayList<>();
+		Position position = new Position(x, y);
+		
+		for(Entity entity : entities) {
+			if(entity.has(Component.POSITION) && entity.position().equals(position)) view.add(entity);
+		}
+		
+		return new EntityView(view);
+	}
+	
+	/**
 	 * Returns a view with the subset of entities with a position between two points, inclusive
 	 * @param minX
 	 * 		Left most x position
@@ -32,8 +63,9 @@ public class EntityView implements Iterable<Entity> {
 	 * @param maxX
 	 * 		Right most x position
 	 * @param maxY
-	 * 		Bottom mot y position
+	 * 		Bottom most y position
 	 * @return
+	 * 		All entities with a position in range
 	 */
 	public EntityView between(int minX, int minY, int maxX, int maxY) {
 		List<Entity> view = new ArrayList<>();

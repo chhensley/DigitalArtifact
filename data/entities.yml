@@ -3,13 +3,17 @@
 #   label: text label displayed to user
 #   tile: id of tile object defined in tiles.yml
 
+#Empty object for debug
+empty:
+   label: 'empty'
+   tile: 'empty'
 
 #Player object
 player:
    label: 'player'
    tile: 'player'
    
-#Empty object for debug
-empty:
-   label: 'empty'
-   tile: 'empty'
+#Impassible wall
+wall:
+   label: 'wall'
+   tile: 'wall'

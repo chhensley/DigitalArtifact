@@ -12,6 +12,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import chensley.da.Config;
+import chensley.da.RandomNumberGenerator;
 import chensley.da.ecs.EntityManager;
 import chensley.da.message.Message.MessageId;
 
@@ -39,12 +40,14 @@ public class MessageManager extends MessageStack {
 	 */
 	public class Context {
 		private final Config config;
+		private final RandomNumberGenerator rng;
 		private final Logger logger;
 		private final EntityManager mgr;
 		private final MessageStack stack;
 		
-		public Context(Config config, EntityManager mgr, MessageStack stack, Logger logger) {
+		public Context(Config config, EntityManager mgr, MessageStack stack, RandomNumberGenerator rng, Logger logger) {
 			this.config = config;
+			this.rng = rng;
 			this.mgr = mgr;
 			this.stack = stack;
 			this.logger = logger;
@@ -53,6 +56,7 @@ public class MessageManager extends MessageStack {
 		public Config config() { return config; }
 		public Logger logger() { return logger; }
 		public EntityManager mgr() { return mgr; }
+		public RandomNumberGenerator rng() { return rng; }
 		public MessageStack stack() { return stack; }
 	}
 	
@@ -61,9 +65,9 @@ public class MessageManager extends MessageStack {
 	
 	private final Context ctxt;
 	
-	public MessageManager(Config config, EntityManager mgr, Logger logger) {
+	public MessageManager(Config config, EntityManager mgr, RandomNumberGenerator rng, Logger logger) {
 		//Initialize context
-		ctxt = new Context(config, mgr, this, logger);
+		ctxt = new Context(config, mgr, this, rng, logger);
 		
 		//Initialize consumer lists
 		for(MessageId id : MessageId.values()) {

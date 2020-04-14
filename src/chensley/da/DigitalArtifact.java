@@ -29,7 +29,8 @@ public class DigitalArtifact {
 	private static final EntityFactory factory = load("manifest.yml", mapper, logger);
 	private static final Config config = loadConfig("config.yml", factory.colors(), mapper, logger);
 	private static final EntityManager entityMgr = new EntityManager(factory);
-	private static final MessageManager msgMgr = new MessageManager(config, entityMgr, logger);
+	private static final RandomNumberGenerator rng = new RandomNumberGenerator();
+	private static final MessageManager msgMgr = new MessageManager(config, entityMgr, rng, logger);
 	
 	//Converts an array node to an array
 	private static String[] asArray(JsonNode node) {
