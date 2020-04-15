@@ -7,6 +7,7 @@ package chensley.da.ecs;
 
 import java.util.BitSet;
 
+import chensley.da.ecs.components.Physics;
 import chensley.da.ecs.components.Position;
 import chensley.da.ecs.components.Tile;
 
@@ -47,8 +48,16 @@ public class Entity {
 	public String label() { return label; }
 	
 	//Components
+	private Physics physics = null;
 	private Position position = null;
 	private Tile tile = null;
+	
+	public void setPhysics(Physics physics) {
+		components.set(Component.PHYSICS.ordinal(), physics != null);
+		this.physics = physics;
+	}
+	
+	public Physics physics() { return physics; }
 	
 	public void setPosition(Position position) {
 		components.set(Component.POSITION.ordinal(), position != null);

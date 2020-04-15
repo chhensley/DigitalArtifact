@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import chensley.da.ecs.Entity;
+import chensley.da.ecs.components.Physics;
 
 /**
  * Main factory for generating entities and components
@@ -26,6 +27,13 @@ public class EntityFactory extends Factory<Entity> {
 		this.tiles = new TileFactory(colors, mapper, logger);
 		this.copy = true;
 	}
+	
+	private Physics deserializePhysics(JsonNode node) {
+		boolean impassible = node.get("impassible") != null ? node.get("impassible").asBoolean() : false;
+		boolean opaque = node.get("opaque") != null ? node.get("opaque").asBoolean() : false;
+		
+		return new Physics(impassible, opaque);
+	}
 
 	@Override
 	protected Entity deserialize(JsonNode node) throws JsonProcessingException {
@@ -34,7 +42,7 @@ public class EntityFactory extends Factory<Entity> {
 		
 		Entity entity = new Entity(label);
 		entity.setTile(node.get("tile") != null ? tiles.get(node.get("tile").asText()) : null);
-		
+		entity.setPhysics(node.get("physics") != null ? deserializePhysics(node.get("physics")) : null);
 		return entity;
 	}
 	

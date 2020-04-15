@@ -9,6 +9,7 @@ package chensley.da.ecs;
  * All legal components
  */
 public enum Component {
+	PHYSICS,
 	POSITION,
 	TILE
 }

@@ -2,6 +2,9 @@
 #entities:
 #   label: text label displayed to user
 #   tile: id of tile object defined in tiles.yml
+#   physics: object physics
+#      impassible: does this object block movement. default: false
+#      opaque: does this object block line of sight. default: false
 
 #Empty object for debug
 empty:
@@ -12,8 +15,13 @@ empty:
 player:
    label: 'player'
    tile: 'player'
+   physics:
+      impassible: true
    
 #Impassible wall
 wall:
    label: 'wall'
    tile: 'wall'
+   physics:
+      impassible: true
+      opaque: true
