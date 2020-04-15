@@ -8,6 +8,8 @@ package chensley.da.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -19,9 +21,44 @@ import chensley.da.Config;
  * Main UI
  */
 public class GUI {
+	//Keyboard handler for the main GUI
+	private class GUIKeyListener implements KeyListener {
+		public KeyEvent e = null;
+		
+		@Override
+		public void keyPressed(KeyEvent e) {}
+		@Override
+		public void keyTyped(KeyEvent e) {}
+		
+		@Override
+		public void keyReleased(KeyEvent e) {		
+			this.e = e;
+		}
+		
+		/**
+		 * Listens for next key event
+		 * @return
+		 * 		key event
+		 */
+		public KeyEvent listen() {
+			e = null;
+			while(e == null) {
+				try { Thread.sleep(1);
+				} catch (InterruptedException e) {
+					return null;
+				}
+			}
+			
+			KeyEvent event = e;
+			e = null;
+			return event;
+		}
+	}
+	
 	private final JFrame window;
 	private final Logger logger;
 	private CanvasPanel termPanel;
+	private GUIKeyListener keyListener = new GUIKeyListener();
 	
 	//Builds main game window
 	private JFrame window(Config config) {
@@ -30,6 +67,7 @@ public class GUI {
 		window.setResizable(false);
 		window.setFocusable(true);
 		window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		window.addKeyListener(keyListener);
 		return window;
 	}
 	
@@ -61,6 +99,11 @@ public class GUI {
 		window.setVisible(true);
 		window.requestFocusInWindow();
 		logger.log(Level.INFO, "starting ui");
+	}
+	
+	//Returns next keyboard input from gui
+	public KeyEvent listen() {
+		return keyListener.listen();
 	}
 	
 	//Draw to simualted terminal canvas
