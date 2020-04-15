@@ -48,7 +48,7 @@ public class UIListener {
 			minX = ctxt.config().map().width() - ctxt.config().term().width();
 		}
 		
-		int maxX = minX + ctxt.config().term().width();
+		int maxX = minX + ctxt.config().term().width() - 1;
 		
 		//Set upper and lower Y bounds of visible area
 		int minY = center.position().y() - ctxt.config().term().height() / 2;
@@ -57,7 +57,7 @@ public class UIListener {
 		} else if (minY + ctxt.config().term().height() >= ctxt.config().map().height()) {
 			minY = ctxt.config().map().height() - ctxt.config().term().height(); 
 		}
-		int maxY = minY + ctxt.config().term().height();
+		int maxY = minY + ctxt.config().term().height() - 1;
 		
 		
 		//Draw entities
