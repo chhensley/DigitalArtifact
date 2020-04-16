@@ -57,7 +57,7 @@ public abstract class Factory <T>{
 					Entry<String, JsonNode> field = fields.next();
 					T value = deserialize(field.getValue());
 					if(value == null) throw new IOException("Failed to parse: " + field.getValue());
-					map.put(field.getKey(), deserialize(field.getValue()));
+					map.put(field.getKey(), value);
 				}
 			} else {
 				logger.log(Level.WARNING, "file not found: {0}", path);

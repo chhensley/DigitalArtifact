@@ -31,7 +31,6 @@ public class EntityFactory extends Factory<Entity> {
 	private Physics deserializePhysics(JsonNode node) {
 		boolean impassible = node.get("impassible") != null ? node.get("impassible").asBoolean() : false;
 		boolean opaque = node.get("opaque") != null ? node.get("opaque").asBoolean() : false;
-		
 		return new Physics(impassible, opaque);
 	}
 

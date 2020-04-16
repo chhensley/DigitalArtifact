@@ -20,6 +20,26 @@ import chensley.da.ecs.factory.ColorFactory;
  * Game configuration loaded from external file
  */
 public class Config {
+	//Control scheme
+	public class Controls {
+		private final String down;
+		private final String left;
+		private final String right;
+		private final String up;
+		
+		Controls(String up, String down, String left, String right) {
+			this.down = down;
+			this.left = left;
+			this.right = right;
+			this.up = up;
+		}
+		
+		public String down() { return down; }
+		public String left() { return left; }
+		public String right() { return right; }
+		public String up() { return up; }
+	}
+	
 	//Game map settings
 	public class Map {
 		private final int height;
@@ -55,6 +75,7 @@ public class Config {
 	}
 	
 	private final String title;
+	private final Controls controls;
 	private final Map map;
 	private final Terminal term;
 	
@@ -77,6 +98,9 @@ public class Config {
 		JsonNode root = mapper.readTree(file);
 		title = root.get("title").asText();
 		
+		JsonNode ctrlNode = root.get("controls");
+		controls = new Controls(ctrlNode.get("up").asText(), ctrlNode.get("down").asText(), ctrlNode.get("left").asText(), ctrlNode.get("right").asText());
+		
 		JsonNode mapNode = root.get("map");
 		map = new Map(mapNode.get("width").asInt(), mapNode.get("height").asInt());
 		
@@ -90,6 +114,7 @@ public class Config {
 	}
 	
 	public String title() { return title; }
+	public Controls controls() { return controls; }
 	public Map map() { return map; }
 	public Terminal term() { return term; }
 }

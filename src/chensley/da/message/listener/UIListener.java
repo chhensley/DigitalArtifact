@@ -5,15 +5,17 @@
  **/
 package chensley.da.message.listener;
 
+import java.awt.event.KeyEvent;
+
 import javax.swing.SwingUtilities;
 
 import chensley.da.message.MessageManager;
 import chensley.da.message.MessageManager.Context;
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
-import chensley.da.ecs.components.Position;
 import chensley.da.ecs.components.Tile;
 import chensley.da.message.Message.MessageId;
+import chensley.da.message.MessageFactory;
 import chensley.da.ui.GUI;
 
 /**
@@ -59,24 +61,45 @@ public class UIListener {
 		}
 		int maxY = minY + ctxt.config().term().height() - 1;
 		
-		
 		//Draw entities
 		for(Entity entity : ctxt.mgr().between(minX, minY, maxX, maxY).with(Component.TILE)) {
 			gui.termDraw(entity.tile().icon(), entity.tile().color(), 
 					entity.position().x() - minX, entity.position().y() - minY, 
 					entity.tile().xOffset(), entity.tile().yOffset());
 		}
+		
+		gui.termRepaint();
 	}
 	
 	public static void register(MessageManager msgMgr) {
 		msgMgr.register(MessageId.APP_START, (msg, ctxt)->{
 			gui = new GUI(ctxt.config(), ctxt.logger());
 			SwingUtilities.invokeLater(gui::launch);
-			msgMgr.publish(MessageId.TERM_REFRESH, ctxt.mgr().player());
+			ctxt.stack().publish(MessageFactory.termRefresh(ctxt.mgr().player()));
+		});
+		
+		msgMgr.register(MessageId.AWAIT_INPUT, (msg, ctxt)->{
+			KeyEvent e = gui.listen();
+			String keyText = KeyEvent.getKeyText(e.getKeyCode());
+			
+			if(keyText.equals(ctxt.config().controls().up())) {
+				ctxt.stack().publish(MessageFactory.actionMove(ctxt.mgr().player(), 0, -1));
+			} else if(keyText.equals(ctxt.config().controls().down())) {
+				ctxt.stack().publish(MessageFactory.actionMove(ctxt.mgr().player(), 0, 1));
+			} else if(keyText.equals(ctxt.config().controls().left())) {
+				ctxt.stack().publish(MessageFactory.actionMove(ctxt.mgr().player(), -1, 0));
+			} else if(keyText.equals(ctxt.config().controls().right())) {
+				ctxt.stack().publish(MessageFactory.actionMove(ctxt.mgr().player(), 1, 0));
+			}
 		});
 		
 		msgMgr.register(MessageId.TERM_REFRESH, (msg, ctxt)->
 			SwingUtilities.invokeLater(()->drawVisible((Entity) msg, ctxt))
 		);
+		
+		msgMgr.register(MessageId.TURN_START, (msg, ctxt) -> {
+			ctxt.stack().publish(MessageFactory.awaitInput());
+			ctxt.stack().publish(MessageFactory.termRefresh(ctxt.mgr().player()));
+		});
 	}
 }

@@ -17,7 +17,7 @@ import chensley.da.message.Message.MessageId;
 public class MessageStack {
 	private final Deque<Message> stack = new ArrayDeque<>();
 	
-	public void publish(MessageId id, Object body) { stack.push(new Message(id, body)); }
+	public void publish(Message msg) { stack.push(msg); }
 	public boolean isEmpty() { return stack.isEmpty(); }
 	
 	protected Message pop() { return stack.pop(); }

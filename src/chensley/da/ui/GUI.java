@@ -125,4 +125,11 @@ public class GUI {
 	public void termDraw(String icon, Color color, int x, int y, double xOffset, double yOffset) {
 		termPanel.draw(icon, color, x, y, xOffset, yOffset);
 	}
+	
+	/**
+	 * Repaints terminal contents
+	 */
+	public void termRepaint() {
+		termPanel.repaint();
+	}
 }

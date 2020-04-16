@@ -17,8 +17,9 @@ import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 import chensley.da.ecs.EntityManager;
 import chensley.da.ecs.factory.ColorFactory;
 import chensley.da.ecs.factory.EntityFactory;
+import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
-import chensley.da.message.Message.MessageId;
+import chensley.da.message.listener.ActionListener;
 import chensley.da.message.listener.FactoryListener;
 import chensley.da.message.listener.UIListener;
 
@@ -75,8 +76,17 @@ public class DigitalArtifact {
 	
 	public static void main(String[] args) throws IOException {
 		FactoryListener.register(msgMgr);
+		ActionListener.register(msgMgr);
 		UIListener.register(msgMgr);
-		msgMgr.publish(MessageId.APP_START, null);
-		while(!msgMgr.isEmpty()) msgMgr.consume();
+		msgMgr.publish(MessageFactory.turnEnd());
+		msgMgr.publish(MessageFactory.turnStart());
+		msgMgr.publish(MessageFactory.appStart());
+		
+		//Exit is triggered through GUI
+		for(;;) {
+			while(!msgMgr.isEmpty()) msgMgr.consume();
+			msgMgr.publish(MessageFactory.turnEnd());
+			msgMgr.publish(MessageFactory.turnStart());
+		}
 	}
 }

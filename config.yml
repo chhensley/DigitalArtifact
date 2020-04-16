@@ -1,4 +1,9 @@
 title: 'Digital Artifact'
+controls:
+   up: 'W'
+   down: 'S'
+   left: 'A'
+   right: 'D'
 terminal:
    height: 80
    width: 80

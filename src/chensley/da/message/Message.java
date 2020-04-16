@@ -10,8 +10,12 @@ package chensley.da.message;
  */
 public class Message {
 	public enum MessageId {
+		ACTION_MOVE,
 		APP_START,
-		TERM_REFRESH
+		AWAIT_INPUT,
+		TERM_REFRESH,
+		TURN_START,
+		TURN_END
 	}
 	
 	private final MessageId id;

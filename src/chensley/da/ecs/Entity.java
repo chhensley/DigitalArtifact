@@ -25,9 +25,9 @@ public class Entity {
 	
 	public Entity(Entity entity) {
 		this.label = entity.label;
-		this.setTile(entity.tile);
+		this.setPhysics(entity.physics);
 		this.setPosition(entity.position);
-		return;
+		this.setTile(entity.tile);
 	}
 	
 	/**
