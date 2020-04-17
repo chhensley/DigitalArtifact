@@ -25,9 +25,11 @@ public class Entity {
 	
 	public Entity(Entity entity) {
 		this.label = entity.label;
-		this.setPhysics(entity.physics);
+		this.setPhysics(new Physics(entity.physics));
 		this.setPosition(entity.position);
 		this.setTile(entity.tile);
+		
+		if(entity.has(Component.PHYSICS)) this.setPhysics(new Physics(entity.physics));
 	}
 	
 	/**
