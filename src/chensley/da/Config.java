@@ -8,11 +8,14 @@ package chensley.da;
 import java.awt.Color;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.node.ArrayNode;
 
 import chensley.da.ecs.factory.ColorFactory;
 
@@ -59,15 +62,18 @@ public class Config {
 		private final int fontSize;
 		private final int height;
 		private final int width;
+		private final List<Color> foregrounds;
 		private final Color background;
 		
-		Terminal(int width, int height, int fontSize, Color background) {
+		Terminal(int width, int height, int fontSize, List<Color> foregrounds, Color background) {
 			this.width = width;
 			this.height = height;
 			this.fontSize = fontSize;
+			this.foregrounds = foregrounds;
 			this.background = background;
 		}
 		
+		public Color foreground(int index) { return foregrounds.get(index); }
 		public Color background() { return background; }
 		public int fontSize() { return fontSize; }
 		public int height() { return height; }
@@ -123,10 +129,17 @@ public class Config {
 		map = new Map(mapNode.get("width").asInt(), mapNode.get("height").asInt());
 		
 		JsonNode termNode = root.get("terminal");
+		
+		List<Color> foregrounds = new ArrayList<>();
+		for(JsonNode color : termNode.get("foreground")) {
+			foregrounds.add(new Color(colors.get(color.asText())));
+		}
+		
 		term = new Terminal(
 			termNode.get("width").asInt(),
 			termNode.get("height").asInt(),
 			termNode.get("fontSize").asInt(),
+			foregrounds,
 			new Color(colors.get(termNode.get("background").asText()))
 		);
 		

@@ -9,6 +9,10 @@ terminal:
    width: 80
    fontSize: 10
    background: 'background00'
+   foreground:
+      - 'term00'
+      - 'term01'
+      - 'term02'
 map:
    height: 200
    width: 200
