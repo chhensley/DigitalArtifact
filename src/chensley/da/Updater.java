@@ -56,7 +56,7 @@ public class Updater {
 		this.runCmd = runCmd;
 		try {
 			this.downloadUrl = new URL(downloadUrl);
-			archive = Paths.get(downloadUrl.substring(downloadUrl.lastIndexOf('/') + 1));
+			archive = Paths.get(Util.fileNameFromUrl(downloadUrl));
 		} catch (MalformedURLException e) {
 			logger.log(Level.SEVERE, "malformed url " + downloadUrl, e);
 		}

@@ -12,3 +12,7 @@ terminal:
 map:
    height: 200
    width: 200
+update:
+   download_url: 'https://file-examples.com/wp-content/uploads/2017/02/zip_2MB.zip'
+   jar: 'decompress.jar'
+   cmd: 'java -jar DigitalArtifact.jar'

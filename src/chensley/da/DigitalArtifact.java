@@ -7,6 +7,9 @@ package chensley.da;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -74,10 +77,26 @@ public class DigitalArtifact {
 		return config;
 	}
 	
+	//Gracefully deletes a file
+	private static void deleteFile(Path path, Logger logger) {
+		if(Files.exists(path)) {
+			logger.log(Level.INFO, "deleting {0}", path);
+			try {
+				Files.delete(path);
+			} catch(IOException e) {
+				logger.log(Level.SEVERE, "failed to delete " + path, e);
+			}
+		}
+	}
+	
 	public static void main(String[] args) throws IOException {
 		FactoryListener.register(msgMgr);
 		ActionListener.register(msgMgr);
 		UIListener.register(msgMgr);
+		
+		deleteFile(Paths.get(config.update().jar()), logger);
+		deleteFile(Paths.get(Util.fileNameFromUrl(config.update().downloadUrl())), logger);
+		
 		msgMgr.publish(MessageFactory.turnEnd());
 		msgMgr.publish(MessageFactory.turnStart());
 		msgMgr.publish(MessageFactory.appStart());

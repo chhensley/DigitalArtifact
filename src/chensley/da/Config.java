@@ -74,10 +74,28 @@ public class Config {
 		public int width() { return width; }
 	}
 	
+	//Game update information
+	public class Update {
+		private final String downloadUrl;
+		private final String jar;
+		private final String cmd;
+		
+		public Update(String downloadUrl, String jar, String cmd) {
+			this.downloadUrl = downloadUrl;
+			this.jar = jar;
+			this.cmd = cmd;
+		}
+		
+		String downloadUrl() { return downloadUrl; }
+		String jar() { return jar; }
+		String cmd() { return cmd; }
+	}
+	
 	private final String title;
 	private final Controls controls;
 	private final Map map;
 	private final Terminal term;
+	private final Update update;
 	
 	/**
 	 * Constructor
@@ -110,11 +128,19 @@ public class Config {
 			termNode.get("height").asInt(),
 			termNode.get("fontSize").asInt(),
 			new Color(colors.get(termNode.get("background").asText()))
-		);	
+		);
+		
+		JsonNode updateNode = root.get("update");
+		update = new Update(
+			updateNode.get("download_url").asText(),
+			updateNode.get("jar").asText(),
+			updateNode.get("cmd").asText()
+		);
 	}
 	
 	public String title() { return title; }
 	public Controls controls() { return controls; }
 	public Map map() { return map; }
 	public Terminal term() { return term; }
+	public Update update() { return update; }
 }

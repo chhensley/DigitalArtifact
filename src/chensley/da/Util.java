@@ -34,4 +34,15 @@ public class Util {
 	 * 		Color
 	 */
 	public static Color color(int rgb) { return color(rgb, 1); }
+	
+	/**
+	 * Returns the file name from a full url
+	 * @param url
+	 * 		URL
+	 * @return
+	 * 		Path
+	 */
+	public static String fileNameFromUrl(String url) {
+		return url.substring(url.lastIndexOf(('/') + 1));
+	}
 }
