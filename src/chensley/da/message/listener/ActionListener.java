@@ -10,7 +10,6 @@ import chensley.da.ecs.Entity;
 import chensley.da.ecs.EntityView;
 import chensley.da.ecs.components.Position;
 import chensley.da.message.Message.MessageId;
-import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
 import chensley.da.message.messages.MoveMsg;
 /**
