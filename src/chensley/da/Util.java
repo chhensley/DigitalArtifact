@@ -43,6 +43,6 @@ public class Util {
 	 * 		Path
 	 */
 	public static String fileNameFromUrl(String url) {
-		return url.substring(url.lastIndexOf(('/') + 1));
+		return url.substring((url.lastIndexOf('/') + 1));
 	}
 }

@@ -71,7 +71,7 @@ public class Updater {
 			logger.log(Level.INFO, "downloading {0}", downloadUrl);
 			Files.copy(istream, archive, StandardCopyOption.REPLACE_EXISTING);
 		} catch(IOException e) {
-			logger.log(Level.SEVERE, "failed to download " + downloadUrl);
+			logger.log(Level.SEVERE, "failed to download " + downloadUrl, e);
 			return;
 		}
 		
