@@ -58,7 +58,7 @@ public class GUI {
 	private final JFrame window;
 	private final Logger logger;
 	private CanvasPanel termPanel;
-	private GUIKeyListener keyListener = new GUIKeyListener();
+	private final GUIKeyListener keyListener = new GUIKeyListener();
 	
 	//Builds main game window
 	private JFrame window(Config config) {
@@ -96,9 +96,11 @@ public class GUI {
 	
 	//Launches the main UI window
 	public void launch() {
+		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		window.requestFocusInWindow();
 		logger.log(Level.INFO, "starting ui");
+
 	}
 	
 	//Returns next keyboard input from gui
