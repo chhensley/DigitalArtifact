@@ -5,6 +5,7 @@
  **/
 package chensley.da.message.listener;
 
+import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
 
 import java.util.logging.Level;
@@ -28,6 +29,7 @@ public class SystemListener {
 				ctxt.logger()
 			);
 			
+			ctxt.stack().publish(MessageFactory.awaitInput());
 			ctxt.logger().log(Level.INFO, "updating spectre digital assitant");
 			updater.update();
 		});

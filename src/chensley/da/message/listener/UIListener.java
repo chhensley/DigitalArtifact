@@ -104,6 +104,7 @@ public class UIListener {
 		msgMgr.register(MessageId.AWAIT_INPUT, (msg, ctxt)->{
 			KeyEvent e = gui.listen();
 			String keyText = KeyEvent.getKeyText(e.getKeyCode());
+			gui.showTerm();
 			
 			if(keyText.equals(ctxt.config().controls().up())) {
 				ctxt.stack().publish(MessageFactory.actionMove(ctxt.mgr().player(), 0, -1));
