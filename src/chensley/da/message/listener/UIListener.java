@@ -43,7 +43,6 @@ public class UIListener {
 				gui.showTerm();
 				return MessageFactory.awaitInput();
 			} else if(keyText.equals("U")) {
-				gui.showTerm();
 				return MessageFactory.appUpdate();
 			}
 		}

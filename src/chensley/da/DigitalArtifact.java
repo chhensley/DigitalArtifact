@@ -24,6 +24,7 @@ import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
 import chensley.da.message.listener.ActionListener;
 import chensley.da.message.listener.FactoryListener;
+import chensley.da.message.listener.SystemListener;
 import chensley.da.message.listener.UIListener;
 
 public class DigitalArtifact {
@@ -93,6 +94,7 @@ public class DigitalArtifact {
 		FactoryListener.register(msgMgr);
 		ActionListener.register(msgMgr);
 		UIListener.register(msgMgr);
+		SystemListener.register(msgMgr);
 		
 		deleteFile(Paths.get(config.update().jar()), logger);
 		deleteFile(Paths.get(Util.fileNameFromUrl(config.update().downloadUrl())), logger);

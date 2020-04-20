@@ -97,9 +97,9 @@ public class Config {
 			this.cmd = cmd;
 		}
 		
-		String downloadUrl() { return downloadUrl; }
-		String jar() { return jar; }
-		String cmd() { return cmd; }
+		public String downloadUrl() { return downloadUrl; }
+		public String jar() { return jar; }
+		public String cmd() { return cmd; }
 	}
 	
 	private final String title;
