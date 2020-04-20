@@ -5,9 +5,10 @@ controls:
    left: 'A'
    right: 'D'
 terminal:
-   height: 80
-   width: 80
-   fontSize: 10
+   height: 61
+   width: 61
+   font: 'Monospaced'
+   fontSize: 12
    background: 'background00'
    foreground:
       - 'term00'

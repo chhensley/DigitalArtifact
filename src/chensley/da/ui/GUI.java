@@ -14,8 +14,10 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import chensley.da.Config;
+import chensley.da.ui.GUIFactory.TermMenu;
 
 /**
  * Main UI
@@ -55,9 +57,11 @@ public class GUI {
 		}
 	}
 	
-	private final JFrame window;
 	private final Logger logger;
+	private final GUIFactory factory;
+	private final JFrame window;
 	private CanvasPanel termPanel;
+	private JPanel aboutMenu;
 	private final GUIKeyListener keyListener = new GUIKeyListener();
 	
 	//Builds main game window
@@ -83,12 +87,37 @@ public class GUI {
 		return termPanel;
 	}
 	
+	//Builds about menu
+	private JPanel aboutMenu(Config config, GUIFactory factory) {
+		TermMenu menu = factory.menu();
+		menu.add(factory.menuTitle("Controls"));
+		menu.add(factory.menuLabel(new StringBuilder("Movement: ")
+				.append(config.controls().up())
+				.append(',')
+				.append(config.controls().left())
+				.append(',')
+				.append(config.controls().down())
+				.append(',')
+				.append(config.controls().right())
+				.toString()));
+		menu.add(factory.menuSpacer());
+		menu.add(factory.menuTitle("Options"));
+		menu.add(factory.menuItem("X", "Update", null, KeyEvent.VK_U));
+		menu.add(factory.menuItem("X", "Cancel", null , KeyEvent.VK_ESCAPE));
+		menu.build();
+		
+		menu.setVisible(true);
+		return menu;
+	}
+	
 	public GUI(Config config, Logger logger) {
 		this.logger = logger;
+		this.factory = new GUIFactory(config);
 		
 		logger.log(Level.INFO, "building ui");
 		window = window(config);
 		termPanel = termPanel(config);
+		aboutMenu = aboutMenu(config, factory);
 		window.getContentPane().add(termPanel, BorderLayout.PAGE_START);
 		
 		window.pack();
@@ -99,8 +128,8 @@ public class GUI {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		window.requestFocusInWindow();
-		logger.log(Level.INFO, "starting ui");
-
+		logger.log(Level.INFO, "booting spectre virtual assitant");
+		logger.log(Level.INFO, "initializing retinal display");
 	}
 	
 	//Returns next keyboard input from gui
@@ -133,5 +162,26 @@ public class GUI {
 	 */
 	public void termRepaint() {
 		termPanel.repaint();
+	}
+	
+	/**
+	 * Clears any displayed terminals and menus
+	 * Call this before adding the new menu or terminal to the window
+	 */
+	private void resetTerm() {
+		window.getContentPane().remove(aboutMenu);
+		window.getContentPane().remove(termPanel);	
+	}
+	
+	//Shows terminal window
+	public void showTerm() {
+		resetTerm();
+		window.getContentPane().add(termPanel, BorderLayout.PAGE_START);
+	}
+	
+	//Shows about menu
+	public void showAbout() {
+		resetTerm();
+		window.getContentPane().add(aboutMenu, BorderLayout.PAGE_START);
 	}
 }

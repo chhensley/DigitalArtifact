@@ -58,15 +58,17 @@ public class Config {
 	
 	//Simulated main terminal settings
 	public class Terminal {
+		private final String font;
 		private final int fontSize;
 		private final int height;
 		private final int width;
 		private final List<Color> foregrounds;
 		private final Color background;
 		
-		Terminal(int width, int height, int fontSize, List<Color> foregrounds, Color background) {
+		Terminal(int width, int height, String font, int fontSize, List<Color> foregrounds, Color background) {
 			this.width = width;
 			this.height = height;
+			this.font = font;
 			this.fontSize = fontSize;
 			this.foregrounds = foregrounds;
 			this.background = background;
@@ -74,6 +76,7 @@ public class Config {
 		
 		public Color foreground(int index) { return foregrounds.get(index); }
 		public Color background() { return background; }
+		public String font() { return font; }
 		public int fontSize() { return fontSize; }
 		public int height() { return height; }
 		public int width() { return width; }
@@ -137,6 +140,7 @@ public class Config {
 		term = new Terminal(
 			termNode.get("width").asInt(),
 			termNode.get("height").asInt(),
+			termNode.get("font").asText(),
 			termNode.get("fontSize").asInt(),
 			foregrounds,
 			new Color(colors.get(termNode.get("background").asText()))
