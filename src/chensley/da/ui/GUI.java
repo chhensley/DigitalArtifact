@@ -177,11 +177,13 @@ public class GUI {
 	public void showTerm() {
 		resetTerm();
 		window.getContentPane().add(termPanel, BorderLayout.PAGE_START);
+		window.pack();
 	}
 	
 	//Shows about menu
 	public void showAbout() {
 		resetTerm();
 		window.getContentPane().add(aboutMenu, BorderLayout.PAGE_START);
+		window.pack();
 	}
 }

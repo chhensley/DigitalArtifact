@@ -18,6 +18,7 @@ public class MessageFactory {
 	
 	public static Message actionMove(Entity entity, int dx, int dy) { return new Message(MessageId.ACTION_MOVE, new MoveMsg(entity, dx, dy)); }
 	public static Message appStart() { return new Message(MessageId.APP_START, null); }
+	public static Message appUpdate() { return new Message(MessageId.APP_UPDATE, null); }
 	public static Message awaitInput() { return new Message(MessageId.AWAIT_INPUT, null); }
 	public static Message termRefresh(Entity entity) { return new Message(Message.MessageId.TERM_REFRESH, entity); }
 	public static Message turnEnd() { return new Message(Message.MessageId.TURN_END, null); }

@@ -28,14 +28,17 @@ public class Config {
 		private final String left;
 		private final String right;
 		private final String up;
+		private final String about;
 		
-		Controls(String up, String down, String left, String right) {
+		Controls(String up, String down, String left, String right, String about) {
 			this.down = down;
 			this.left = left;
 			this.right = right;
 			this.up = up;
+			this.about = about;
 		}
 		
+		public String about() { return about; }
 		public String down() { return down; }
 		public String left() { return left; }
 		public String right() { return right; }
@@ -125,7 +128,13 @@ public class Config {
 		title = root.get("title").asText();
 		
 		JsonNode ctrlNode = root.get("controls");
-		controls = new Controls(ctrlNode.get("up").asText(), ctrlNode.get("down").asText(), ctrlNode.get("left").asText(), ctrlNode.get("right").asText());
+		controls = new Controls(
+			ctrlNode.get("up").asText(), 
+			ctrlNode.get("down").asText(), 
+			ctrlNode.get("left").asText(), 
+			ctrlNode.get("right").asText(),
+			ctrlNode.get("about").asText()
+		);
 		
 		JsonNode mapNode = root.get("map");
 		map = new Map(mapNode.get("width").asInt(), mapNode.get("height").asInt());

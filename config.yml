@@ -4,6 +4,7 @@ controls:
    down: 'S'
    left: 'A'
    right: 'D'
+   about: 'F1'
 terminal:
    height: 61
    width: 61

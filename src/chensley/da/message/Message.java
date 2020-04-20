@@ -12,6 +12,7 @@ public class Message {
 	public enum MessageId {
 		ACTION_MOVE,
 		APP_START,
+		APP_UPDATE,
 		AWAIT_INPUT,
 		TERM_REFRESH,
 		TURN_START,
