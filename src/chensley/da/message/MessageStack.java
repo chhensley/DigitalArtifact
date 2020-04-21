@@ -8,8 +8,6 @@ package chensley.da.message;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
-import chensley.da.message.Message.MessageId;
-
 /**
  * Game message stack
  * Parent of MessageManager

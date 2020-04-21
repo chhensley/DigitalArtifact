@@ -9,7 +9,6 @@ import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
 
 import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import chensley.da.Updater;
 import chensley.da.message.Message.MessageId;
