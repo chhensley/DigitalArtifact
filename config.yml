@@ -19,6 +19,6 @@ map:
    height: 200
    width: 200
 update:
-   download_url: 'https://file-examples.com/wp-content/uploads/2017/02/zip_2MB.zip'
+   download_url: 'https://github.com/chhensley/DigitalArtifact/releases/latest/download/digitalartifact.zip'
    jar: 'decompress.jar'
    cmd: 'java -jar DigitalArtifact.jar'
