@@ -53,12 +53,11 @@ public class CanvasPanel extends JPanel {
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
 		//Clears any existing characters
-		g.setFont(new Font("monospace", Font.PLAIN, config.term().fontSize()));
+		g.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		g.setColor(config.term().background());
 		g.fillRect(0,  0, 
 				config.term().width() * config.term().fontSize() + config.term().fontSize(), 
 				config.term().height() * config.term().fontSize() + config.term().fontSize());
-		
 		//Draw each unicode character
 		for(int x = 0; x < config.term().width(); x++) {
 			for(int y = 0; y < config.term().height(); y++) {

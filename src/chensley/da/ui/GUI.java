@@ -102,8 +102,8 @@ public class GUI {
 				.toString()));
 		menu.add(factory.menuSpacer());
 		menu.add(factory.menuTitle("Options"));
-		menu.add(factory.menuItem("X", "Update", null, KeyEvent.VK_U));
-		menu.add(factory.menuItem("X", "Cancel", null , KeyEvent.VK_ESCAPE));
+		menu.add(factory.menuItem("\u2714", "Update", null, KeyEvent.VK_U));
+		menu.add(factory.menuItem("\u2716", "Cancel", null , KeyEvent.VK_ESCAPE));
 		menu.build();
 		
 		menu.setVisible(true);
@@ -118,7 +118,8 @@ public class GUI {
 		window = window(config);
 		termPanel = termPanel(config);
 		aboutMenu = aboutMenu(config, factory);
-		window.getContentPane().add(termPanel, BorderLayout.PAGE_START);
+		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
+		window.getContentPane().add(factory.menuLabel(config.controls().about() + " for help and to update"), BorderLayout.PAGE_END);
 		
 		window.pack();
 	}
@@ -176,14 +177,16 @@ public class GUI {
 	//Shows terminal window
 	public void showTerm() {
 		resetTerm();
-		window.getContentPane().add(termPanel, BorderLayout.PAGE_START);
+		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
 		window.pack();
+		window.repaint();
 	}
 	
 	//Shows about menu
 	public void showAbout() {
 		resetTerm();
-		window.getContentPane().add(aboutMenu, BorderLayout.PAGE_START);
+		window.getContentPane().add(aboutMenu, BorderLayout.LINE_START);
 		window.pack();
+		window.repaint();
 	}
 }

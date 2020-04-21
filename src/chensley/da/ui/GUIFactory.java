@@ -14,6 +14,7 @@ import java.awt.event.KeyEvent;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
 
 import chensley.da.Config;
 
@@ -29,6 +30,7 @@ public class GUIFactory {
 
 		public TermMenu() {
 			super();
+			setLayout(new GridBagLayout());
 		}
 		
 		@Override
@@ -71,13 +73,18 @@ public class GUIFactory {
 	//Returns simulated terminal menu
 	public TermMenu menu() {
 		TermMenu menu = new TermMenu();
-		menu.setLayout(new GridBagLayout());
-		
+
 		menu.setBackground(config.term().background());
 		menu.setForeground(config.term().foreground(2));
-		menu.setPreferredSize(new Dimension(config.term().fontSize() * config.term().width(), 
-				config.term().fontSize() * config.term().height()));
-		menu.setVisible(false);
+		
+		menu.setPreferredSize(new Dimension(config.term().fontSize() * config.term().width() + config.term().fontSize()/2, 
+				config.term().fontSize() * config.term().height() + config.term().fontSize()/2 ));
+		menu.setBorder(new EmptyBorder(
+					config.term().fontSize()/2 , 
+					config.term().fontSize()/2 , 
+					config.term().fontSize()/2 + config.term().fontSize()%2,
+					config.term().fontSize()/2 + config.term().fontSize()%2
+				));
 		return menu;
 	}
 	
@@ -91,6 +98,7 @@ public class GUIFactory {
 	public JLabel menuTitle(String text) {
 		JLabel title =  new JLabel("### " + text.toUpperCase() + " ###");
 		title.setForeground(config.term().foreground(0));
+		title.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		
 		return title;
 	}
@@ -139,6 +147,7 @@ public class GUIFactory {
 	public JLabel menuLabel(String text) {
 		JLabel label = new JLabel(text);
 		label.setForeground(config.term().foreground(2));
+		label.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		return label;
 	}
 	
