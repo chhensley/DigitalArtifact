@@ -22,3 +22,6 @@ update:
    download_url: 'https://github.com/chhensley/DigitalArtifact/releases/latest/download/digitalartifact.zip'
    jar: 'decompress.jar'
    cmd: 'java -jar DigitalArtifact.jar'
+gui:
+   sidebar_width: 300
+   log_size: 40

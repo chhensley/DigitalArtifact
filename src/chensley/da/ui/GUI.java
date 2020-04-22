@@ -8,13 +8,20 @@ package chensley.da.ui;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextArea;
+import javax.swing.border.EmptyBorder;
+import javax.swing.text.BadLocationException;
 
 import chensley.da.Config;
 import chensley.da.ui.GUIFactory.TermMenu;
@@ -23,6 +30,32 @@ import chensley.da.ui.GUIFactory.TermMenu;
  * Main UI
  */
 public class GUI {
+	//Log which displays most recent log message on the bottom
+	private class MsgLog extends JTextArea {
+		private static final long serialVersionUID = 1185768508876489650L;
+		private final int size;
+		
+		public MsgLog(int size) {
+			super();
+			this.size = size;
+		}
+		
+		@Override
+		public void append(String msg) {
+			try {
+				while(getLineCount() > size) {
+					
+					replaceRange("", 0, getLineEndOffset(0));
+				}
+			} catch(BadLocationException e) {
+				//Do nothing
+			}
+			
+			super.append(msg);
+		}
+	}
+	
+	
 	//Keyboard handler for the main GUI
 	private class GUIKeyListener implements KeyListener {
 		public KeyEvent e = null;
@@ -87,6 +120,44 @@ public class GUI {
 		return termPanel;
 	}
 	
+	private JPanel sidePanel(Config config) {
+		JPanel sidePanel = new JPanel();
+		
+		sidePanel.setPreferredSize(new Dimension(config.gui().sideBarWidth(), config.term().height() * config.term().fontSize()));
+		sidePanel.setBackground(config.term().background());
+		sidePanel.setLayout(new GridBagLayout());
+		sidePanel.setBorder(new EmptyBorder(0, config.term().fontSize(), 0, 0));
+		
+		GridBagConstraints labelCon = new GridBagConstraints();
+		labelCon.weightx = 1.0;
+		labelCon.weighty = 0.0;
+		labelCon.fill = GridBagConstraints.HORIZONTAL;
+		labelCon.anchor = GridBagConstraints.NORTHEAST;
+		labelCon.gridx = 0;
+		labelCon.gridy = 0;
+		
+		JLabel logLabel = new JLabel("Message Log");
+		logLabel.setForeground(config.term().foreground(0));
+		logLabel.setFont(new Font(config.term().font(), Font.BOLD, config.term().fontSize()));
+		sidePanel.add(logLabel, labelCon);
+		
+		GridBagConstraints logCon = new GridBagConstraints();
+		logCon.weightx = 1.0;
+		logCon.weighty = 1.0;
+		logCon.fill = GridBagConstraints.BOTH;
+		logCon.anchor = GridBagConstraints.NORTHEAST;
+		logCon.gridx = 0;
+		logCon.gridy = 1;
+		
+		MsgLog msgLog = new MsgLog(config.gui().logSize());
+		msgLog.setForeground(config.term().foreground(2));
+		msgLog.setBackground(config.term().background());
+		msgLog.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
+		
+		sidePanel.add(msgLog, logCon);
+		return sidePanel;
+	}
+	
 	//Builds about menu
 	private JPanel aboutMenu(Config config, GUIFactory factory) {
 		TermMenu menu = factory.menu();
@@ -119,6 +190,7 @@ public class GUI {
 		termPanel = termPanel(config);
 		aboutMenu = aboutMenu(config, factory);
 		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
+		window.getContentPane().add(sidePanel(config), BorderLayout.LINE_END);
 		window.getContentPane().add(factory.menuLabel(config.controls().about() + " for help and to update"), BorderLayout.PAGE_END);
 		
 		window.pack();

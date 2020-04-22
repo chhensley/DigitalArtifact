@@ -45,6 +45,20 @@ public class Config {
 		public String up() { return up; }
 	}
 	
+	//GUI settings not related to simulated terminal
+	public class GUI {
+		private final int sideBarWidth;
+		private final int logSize;
+		
+		public GUI(int sideBarWidth, int logSize) {
+			this.sideBarWidth = sideBarWidth;
+			this.logSize = logSize;
+		}
+		
+		public int logSize() { return logSize; }
+		public int sideBarWidth() { return sideBarWidth; }
+	}
+	
 	//Game map settings
 	public class Map {
 		private final int height;
@@ -104,6 +118,7 @@ public class Config {
 	
 	private final String title;
 	private final Controls controls;
+	private final GUI gui;
 	private final Map map;
 	private final Terminal term;
 	private final Update update;
@@ -136,6 +151,12 @@ public class Config {
 			ctrlNode.get("about").asText()
 		);
 		
+		JsonNode guiNode = root.get("gui");
+		gui = new GUI(
+			guiNode.get("sidebar_width").asInt(),
+			guiNode.get("log_size").asInt()
+		);
+		
 		JsonNode mapNode = root.get("map");
 		map = new Map(mapNode.get("width").asInt(), mapNode.get("height").asInt());
 		
@@ -165,6 +186,7 @@ public class Config {
 	
 	public String title() { return title; }
 	public Controls controls() { return controls; }
+	public GUI gui() { return gui; }
 	public Map map() { return map; }
 	public Terminal term() { return term; }
 	public Update update() { return update; }
