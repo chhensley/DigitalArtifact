@@ -23,5 +23,5 @@ update:
    jar: 'decompress.jar'
    cmd: 'java -jar DigitalArtifact.jar'
 gui:
-   sidebar_width: 300
+   sidebar_width: 600
    log_size: 40
