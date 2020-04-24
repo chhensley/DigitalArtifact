@@ -153,6 +153,7 @@ public class GUI {
 		msgLog.setForeground(config.term().foreground(2));
 		msgLog.setBackground(config.term().background());
 		msgLog.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
+		msgLog.setFocusable(false);
 		logger.addHandler(new JTextAreaHandler(msgLog));
 		
 		sidePanel.add(msgLog, logCon);
