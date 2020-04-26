@@ -58,6 +58,11 @@ public class FactoryListener {
 
 	private FactoryListener() {};
 	
+	//Returns midpoint on a line between two points
+	private static Point center(Point first, Point second) {
+		return new Point((first.x() + second.x())/2, (first.y() + second.y())/2);
+	}
+	
 	//Creates entities from map
 	private static void create(GameMap map, EntityManager mgr) {
 		for(int x = 0; x < map.width; x++)
@@ -117,6 +122,26 @@ public class FactoryListener {
 			map.set(null, x, y);
 		}
 	}
+	
+	//Calculates player start position
+	public static Point startPosition(CityTree tree) {
+		PartitionTree child0 = tree.children().get(0);
+		PartitionTree child1 = tree.children().get(1);
+		
+		Point first = null;
+		Point second = null;
+		
+		//Calculate the center point of the widest street
+		if (tree.isVertical()) {
+			first = new Point(child0.max().x(), child0.min().y());
+			second = new Point(child1.min().x(), child1.max().y());
+		} else {
+			first = new Point(child0.min().x(), child0.max().y());
+			second = new Point(child1.max().x(), child1.min().y());
+		}
+		
+		return center(first, second);
+	}
 
 	
 	public static void register(MessageManager msgMgr) {
@@ -128,8 +153,9 @@ public class FactoryListener {
 				drawNode(gameMap, node);
 				carveDoors(gameMap, node, ctxt);
 			}
+			Point start = startPosition(tree);
+			gameMap.set("player", start.x(), start.y());
 			
-			gameMap.set("player", 100, 100);
 			create(gameMap, ctxt.mgr());
 		});
 	}
