@@ -1,4 +1,5 @@
 title: 'Digital Artifact'
+#Control scheme
 controls:
    up: 'W'
    down: 'S'
@@ -6,11 +7,15 @@ controls:
    right: 'D'
    about: 'F1'
 terminal:
+   #Height of terminal in characters
    height: 61
+   #Width of terminal in characters
    width: 61
    font: 'Monospaced'
    fontSize: 12
+   #Terminal background color from colors.yml
    background: 'background00'
+   #Terminal forgeround color from colors.yml
    foreground:
       - 'term00'
       - 'term01'
@@ -19,16 +24,26 @@ map:
    height: 200
    width: 200
 map_gen:
+   #Controls binary space partition used to generate map
    partition:
+      #Max number of streets
       depth: 5
+      #Minimum building height in tiles
       min_height: 30
+      #Minimum building width in tiles
       min_width: 30
+   #Minum and maximum numbers of doors/building
    min_doors: 3
    max_doors: 5
 update:
+   #URL to download latest update
    download_url: 'https://github.com/chhensley/DigitalArtifact/releases/latest/download/digitalartifact.zip'
+   #.jar file used to decompress downloaded .zip archive
    jar: 'decompress.jar'
+   #Command to restart this application
    cmd: 'java -jar DigitalArtifact.jar'
 gui:
+   #Width of the gui side bar in pixels
    sidebar_width: 600
+   #Maxium number of messages to retain in onscreen message log
    log_size: 40
