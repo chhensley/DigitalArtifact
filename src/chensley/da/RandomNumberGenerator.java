@@ -21,6 +21,10 @@ public class RandomNumberGenerator {
 		random = new Random(seed);
 	}
 	
+	public boolean nextBool() {
+		return random.nextBoolean();
+	}
+	
 	/**
 	 * Returns a random integer in range
 	 * @param min

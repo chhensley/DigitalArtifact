@@ -18,6 +18,13 @@ terminal:
 map:
    height: 200
    width: 200
+map_gen:
+   partition:
+      depth: 5
+      min_height: 30
+      min_width: 30
+   min_doors: 3
+   max_doors: 5
 update:
    download_url: 'https://github.com/chhensley/DigitalArtifact/releases/latest/download/digitalartifact.zip'
    jar: 'decompress.jar'

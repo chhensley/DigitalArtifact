@@ -73,6 +73,41 @@ public class Config {
 		public int width()  { return width; }
 	}
 	
+	//Map generation settings
+	public class MapGen {
+		private final MapPartition partition;
+		private final int minDoors;
+		private final int maxDoors;
+		
+		public MapGen(MapPartition partition, int minDoors, int maxDoors) {
+			this.partition = partition;
+			this.minDoors = minDoors;
+			this.maxDoors = maxDoors;
+		}
+		
+		public MapPartition partition() { return partition; }
+		public int minDoors() { return minDoors; }
+		public int maxDoors() { return maxDoors; }
+		
+	}
+	
+	//Settings for partitioning map into buildings
+	public class MapPartition {
+		private final int depth;
+		private final int minWidth;
+		private final int minHeight;
+		
+		public MapPartition(int depth, int minWidth, int minHeight) {
+			this.depth = depth;
+			this.minWidth = minWidth;
+			this.minHeight = minHeight;
+		}
+		
+		public int depth() { return depth; }
+		public int minWidth() { return minWidth; }
+		public int minHeight() { return minHeight; }
+	}
+	
 	//Simulated main terminal settings
 	public class Terminal {
 		private final String font;
@@ -120,6 +155,7 @@ public class Config {
 	private final Controls controls;
 	private final GUI gui;
 	private final Map map;
+	private final MapGen mapGen;
 	private final Terminal term;
 	private final Update update;
 	
@@ -167,6 +203,19 @@ public class Config {
 			foregrounds.add(new Color(colors.get(color.asText())));
 		}
 		
+		JsonNode mapGenNode = root.get("map_gen");
+		JsonNode partitionNode = mapGenNode.get("partition");
+		MapPartition partition = new MapPartition(
+			partitionNode.get("depth").asInt(),
+			partitionNode.get("min_width").asInt(),
+			partitionNode.get("min_height").asInt()
+		);
+		mapGen = new MapGen(
+				partition,
+				mapGenNode.get("min_doors").asInt(),
+				mapGenNode.get("max_doors").asInt()
+		);
+		
 		term = new Terminal(
 			termNode.get("width").asInt(),
 			termNode.get("height").asInt(),
@@ -188,6 +237,7 @@ public class Config {
 	public Controls controls() { return controls; }
 	public GUI gui() { return gui; }
 	public Map map() { return map; }
+	public MapGen mapGen() { return mapGen; }
 	public Terminal term() { return term; }
 	public Update update() { return update; }
 }

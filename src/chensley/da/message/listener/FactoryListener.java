@@ -6,6 +6,7 @@
 package chensley.da.message.listener;
 
 import chensley.da.message.MessageManager;
+import chensley.da.message.MessageManager.Context;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,6 +14,9 @@ import java.util.List;
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.EntityManager;
 import chensley.da.ecs.components.Position;
+import chensley.da.mapgen.CityTree;
+import chensley.da.mapgen.PartitionTree;
+import chensley.da.mapgen.Point;
 import chensley.da.message.Message.MessageId;
 
 /**
@@ -25,7 +29,8 @@ public class FactoryListener {
 		private final int width;
 		private final int height;
 		
-		//Game map. Values are entities defined in entities.yml
+		//Flattened game map
+		//Cells are entities defined in the entity manager
 		private final List<String> cells = new ArrayList<>();
 		
 		public GameMap(int width, int height) {
@@ -38,14 +43,14 @@ public class FactoryListener {
 		
 		public void set(String cell, int x, int y) {
 			if (x < 0 || y < 0 || x >= width || y >= height) 
-				throw new IndexOutOfBoundsException();
+				throw new IndexOutOfBoundsException(x + "," + y);
 			
 			cells.set(x * width + y, cell);
 		}
 		
 		public String get(int x, int y) {
 			if (x < 0 || y < 0 || x >= width || y >= height) 
-				throw new IndexOutOfBoundsException();
+				throw new IndexOutOfBoundsException(x + "," + y);
 			
 			return cells.get(x * width + y);
 		}
@@ -66,13 +71,62 @@ public class FactoryListener {
 			}
 	}
 	
+	//Draws a partitioned node on the map
+	private static void drawNode(GameMap map, PartitionTree node) {
+		//Draw vertical walls
+		for(int x = node.min().x(); x <= node.max().x(); x++) {
+			map.set("wall", x, node.min().y());
+			map.set("wall", x, node.max().y());
+		}
+		
+		//Draw horizontal walls
+		for(int y = node.min().y(); y <= node.max().y(); y++) {
+			map.set("wall", node.min().x(), y);
+			map.set("wall", node.max().x(), y);
+		}
+	}
+	
+	//Carves doors into the walls of the partitioned space
+	private static void carveDoors(GameMap map, PartitionTree node, Context ctxt) {
+		int doors = ctxt.rng().nextInt(
+			ctxt.config().mapGen().minDoors(),
+			ctxt.config().mapGen().maxDoors()
+		);
+		
+		for(int i = 0; i < doors; i++) {
+			int x = 0;
+			int y = 0;
+			
+			
+			if (ctxt.rng().nextBool()) {
+				//Cut a door in a vertical wall
+				x = ctxt.rng().nextInt(node.min().x() + 1, node.max().x() - 1);
+				y = ctxt.rng().nextBool()?node.min().y():node.max().y();
+				
+				if (y == 0) y = node.max().y();
+				if (y == ctxt.config().map().height() - 1) y = node.min().y();
+			} else {
+				//Cut a door in the horizontal wall
+				x = ctxt.rng().nextBool()?node.min().x():node.max().x();
+				y = ctxt.rng().nextInt(node.min().y() + 1, node.max().y() - 1);
+				
+				if (x == 0) x = node.max().x();
+				if (x == ctxt.config().map().width() -1) x = node.min().x();
+			}
+			
+			map.set(null, x, y);
+		}
+	}
+
+	
 	public static void register(MessageManager msgMgr) {
 		msgMgr.register(MessageId.APP_START, (msg, ctxt)->{
 			GameMap gameMap = new GameMap(ctxt.config().map().width(), ctxt.config().map().height());
-			for(int i = 0; i < 500; i++) {
-				int x = ctxt.rng().nextInt(0, 199);
-				int y = ctxt.rng().nextInt(0, 199);
-				gameMap.set("wall", x, y);
+			
+			CityTree tree = new CityTree(new Point(0, 0), new Point(199, 199), ctxt.rng().nextBool(), ctxt.config(), ctxt.rng());
+			for(PartitionTree node : tree.flatten()) {
+				drawNode(gameMap, node);
+				carveDoors(gameMap, node, ctxt);
 			}
 			
 			gameMap.set("player", 100, 100);
