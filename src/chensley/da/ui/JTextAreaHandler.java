@@ -26,7 +26,7 @@ public class JTextAreaHandler extends Handler {
 	 */
 	private static class JTextAreaFormatter extends Formatter {
 		
-		private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss");
+		private static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("HH:mm:ss.SS");
 		
 		public JTextAreaFormatter() {
 			super();
@@ -34,7 +34,7 @@ public class JTextAreaHandler extends Handler {
 		}
 		
 		@Override
-		//[HH::mm::ss]message text
+		//[hours:minutes:seconds.miliseconds]message text
 		public String format(LogRecord record) {
 			Date date = new Date(record.getMillis());
 			String timestamp = DATE_FORMAT.format(date);

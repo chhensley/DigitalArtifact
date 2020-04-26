@@ -203,8 +203,6 @@ public class GUI {
 		window.setLocationRelativeTo(null);
 		window.setVisible(true);
 		window.requestFocusInWindow();
-		logger.log(Level.INFO, "booting spectre virtual assitant");
-		logger.log(Level.INFO, "initializing retinal display");
 	}
 	
 	//Returns next keyboard input from gui

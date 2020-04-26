@@ -6,6 +6,7 @@
 package chensley.da.message.listener;
 
 import java.awt.event.KeyEvent;
+import java.util.logging.Level;
 
 import javax.swing.SwingUtilities;
 
@@ -98,6 +99,8 @@ public class UIListener {
 		msgMgr.register(MessageId.APP_START, (msg, ctxt)->{
 			gui = new GUI(ctxt.config(), ctxt.logger());
 			SwingUtilities.invokeLater(gui::launch);
+			ctxt.logger().log(Level.INFO, "booting spectre virtual assitant");
+			ctxt.logger().log(Level.INFO, "initializing retinal display");
 		});
 		
 		msgMgr.register(MessageId.AWAIT_INPUT, (msg, ctxt)->{

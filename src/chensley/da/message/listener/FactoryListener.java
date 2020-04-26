@@ -10,6 +10,7 @@ import chensley.da.message.MessageManager.Context;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.EntityManager;
@@ -156,6 +157,7 @@ public class FactoryListener {
 			Point start = startPosition(tree);
 			gameMap.set("player", start.x(), start.y());
 			
+			ctxt.logger().log(Level.INFO, "mapping location");
 			create(gameMap, ctxt.mgr());
 		});
 	}
