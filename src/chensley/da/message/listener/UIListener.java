@@ -98,7 +98,6 @@ public class UIListener {
 		msgMgr.register(MessageId.APP_START, (msg, ctxt)->{
 			gui = new GUI(ctxt.config(), ctxt.logger());
 			SwingUtilities.invokeLater(gui::launch);
-			ctxt.stack().publish(MessageFactory.termRefresh(ctxt.mgr().player()));
 		});
 		
 		msgMgr.register(MessageId.AWAIT_INPUT, (msg, ctxt)->{

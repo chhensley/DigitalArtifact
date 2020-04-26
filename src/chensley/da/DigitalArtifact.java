@@ -91,9 +91,9 @@ public class DigitalArtifact {
 	}
 	
 	public static void main(String[] args) throws IOException {
+		UIListener.register(msgMgr);
 		FactoryListener.register(msgMgr);
 		ActionListener.register(msgMgr);
-		UIListener.register(msgMgr);
 		SystemListener.register(msgMgr);
 		
 		deleteFile(Paths.get(config.update().jar()), logger);
