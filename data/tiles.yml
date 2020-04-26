@@ -18,5 +18,5 @@ player:
    x_offset: 0.3
    
 wall:
-   icon: "\u2588"
+   icon: "\u2B1B"
    color: 'term00'
