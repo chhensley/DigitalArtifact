@@ -11,8 +11,8 @@ import java.util.logging.Logger;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import chensley.da.Util;
 import chensley.da.ecs.components.Tile;
+import chensley.da.util.Util;
 
 public class TileFactory extends Factory<Tile>{
 	private final ColorFactory colorFactory;

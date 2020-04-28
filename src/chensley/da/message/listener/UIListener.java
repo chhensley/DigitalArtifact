@@ -12,7 +12,6 @@ import javax.swing.SwingUtilities;
 
 import chensley.da.message.MessageManager;
 import chensley.da.message.MessageManager.Context;
-import chensley.da.Util;
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.components.Tile;
@@ -20,6 +19,7 @@ import chensley.da.message.Message;
 import chensley.da.message.Message.MessageId;
 import chensley.da.message.MessageFactory;
 import chensley.da.ui.GUI;
+import chensley.da.util.Util;
 
 /**
  * Helper class for registering UI related listeners

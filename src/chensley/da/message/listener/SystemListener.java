@@ -10,8 +10,8 @@ import chensley.da.message.MessageManager;
 
 import java.util.logging.Level;
 
-import chensley.da.Updater;
 import chensley.da.message.Message.MessageId;
+import chensley.da.util.Updater;
 /**
  * Helper class for registering system related listeners
  */

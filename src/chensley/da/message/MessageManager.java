@@ -12,9 +12,9 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import chensley.da.Config;
-import chensley.da.RandomNumberGenerator;
 import chensley.da.ecs.EntityManager;
 import chensley.da.message.Message.MessageId;
+import chensley.da.util.RandomNumberGenerator;
 
 /**
  * Centralizes message handling

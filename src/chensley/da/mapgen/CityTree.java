@@ -6,7 +6,7 @@
 package chensley.da.mapgen;
 
 import chensley.da.Config;
-import chensley.da.RandomNumberGenerator;
+import chensley.da.util.RandomNumberGenerator;
 
 //Partition tree for generating city block
 public class CityTree extends PartitionTree {

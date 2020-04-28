@@ -9,8 +9,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-import chensley.da.Util;
 import chensley.da.ecs.components.Position;
+import chensley.da.util.Util;
 
 /**
  * An iterable connection of entities

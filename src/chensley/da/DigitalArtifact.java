@@ -26,6 +26,8 @@ import chensley.da.message.listener.ActionListener;
 import chensley.da.message.listener.FactoryListener;
 import chensley.da.message.listener.SystemListener;
 import chensley.da.message.listener.UIListener;
+import chensley.da.util.RandomNumberGenerator;
+import chensley.da.util.Util;
 
 public class DigitalArtifact {
 	

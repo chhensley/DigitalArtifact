@@ -3,7 +3,7 @@
  * Do as thou wilt shall be the whole of the License. 
  * Love is the License, love under will.
  **/
-package chensley.da;
+package chensley.da.util;
 
 import java.io.IOException;
 import java.io.InputStream;

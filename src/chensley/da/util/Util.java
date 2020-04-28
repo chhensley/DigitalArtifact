@@ -3,13 +3,12 @@
  * Do as thou wilt shall be the whole of the License. 
  * Love is the License, love under will.
  **/
-package chensley.da;
+package chensley.da.util;
 
 import java.awt.Color;
 
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.EntityView;
-import chensley.da.util.BoolMap;
 
 /**
  * Static utility functions
