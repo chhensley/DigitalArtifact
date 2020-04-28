@@ -11,5 +11,6 @@ package chensley.da.ecs;
 public enum Component {
 	PHYSICS,
 	POSITION,
-	TILE
+	TILE,
+	VISION
 }

@@ -5,6 +5,8 @@
 #   physics: object physics
 #      impassible: does this object block movement. default: false
 #      opaque: does this object block line of sight. default: false
+#   vision: object's vision
+#      range: range of vision in tiles
 
 #Empty object for debug
 empty:
@@ -17,6 +19,8 @@ player:
    tile: 'player'
    physics:
       impassible: true
+   vision:
+      range: 25
    
 #Impassible wall
 wall:

@@ -13,6 +13,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.components.Physics;
+import chensley.da.ecs.components.Vision;
 
 /**
  * Main factory for generating entities and components
@@ -33,6 +34,10 @@ public class EntityFactory extends Factory<Entity> {
 		boolean opaque = node.get("opaque") != null ? node.get("opaque").asBoolean() : false;
 		return new Physics(impassible, opaque);
 	}
+	
+	private Vision deserializeVision(JsonNode node) {
+		return new Vision(node.get("range").asInt());
+	}
 
 	@Override
 	protected Entity deserialize(JsonNode node) throws JsonProcessingException {
@@ -42,6 +47,7 @@ public class EntityFactory extends Factory<Entity> {
 		Entity entity = new Entity(label);
 		entity.setTile(node.get("tile") != null ? tiles.get(node.get("tile").asText()) : null);
 		entity.setPhysics(node.get("physics") != null ? deserializePhysics(node.get("physics")) : null);
+		entity.setVision(node.get("vision") != null ? deserializeVision(node.get("vision")) : null);
 		return entity;
 	}
 	

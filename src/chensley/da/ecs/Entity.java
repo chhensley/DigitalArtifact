@@ -10,6 +10,7 @@ import java.util.BitSet;
 import chensley.da.ecs.components.Physics;
 import chensley.da.ecs.components.Position;
 import chensley.da.ecs.components.Tile;
+import chensley.da.ecs.components.Vision;
 
 /**
  * Game entity
@@ -25,11 +26,10 @@ public class Entity {
 	
 	public Entity(Entity entity) {
 		this.label = entity.label;
-		this.setPhysics(new Physics(entity.physics));
-		this.setPosition(entity.position);
+		if (entity.has(Component.PHYSICS)) this.setPhysics(new Physics(entity.physics));
+		if (entity.has(Component.POSITION)) this.setPosition(new Position(entity.position));
 		this.setTile(entity.tile);
-		
-		if(entity.has(Component.PHYSICS)) this.setPhysics(new Physics(entity.physics));
+		if (entity.has(Component.VISION)) this.setVision(new Vision(entity.vision));
 	}
 	
 	/**
@@ -53,6 +53,7 @@ public class Entity {
 	private Physics physics = null;
 	private Position position = null;
 	private Tile tile = null;
+	private Vision vision = null;
 	
 	public void setPhysics(Physics physics) {
 		components.set(Component.PHYSICS.ordinal(), physics != null);
@@ -74,4 +75,11 @@ public class Entity {
 	}
 	
 	public Tile tile() { return tile; }
+	
+	public void setVision(Vision vision) {
+		components.set(Component.VISION.ordinal(), vision != null);
+		this.vision = vision;
+	}
+	
+	public Vision vision() { return vision; }
 }

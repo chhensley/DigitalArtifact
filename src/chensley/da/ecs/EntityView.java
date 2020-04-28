@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import chensley.da.Util;
 import chensley.da.ecs.components.Position;
 
 /**
@@ -76,6 +77,32 @@ public class EntityView implements Iterable<Entity> {
 				entity.position().y() < minY || entity.position().y() > maxY) continue;
 			
 			view.add(entity);
+		}
+		
+		return new EntityView(view);
+	}
+	
+	/**
+	 * Returns a view with the subset of all entities within a defined radius
+	 * @param x
+	 * 		X cooordinate of center point
+	 * @param y
+	 * 		Y coordinate of center point
+	 * @param r
+	 * 		Radius
+	 * @return
+	 * 		All entities within radius
+	 */
+	public EntityView inRadius(int x, int y, int r ) {
+		List<Entity> view = new ArrayList<>();
+		
+		for(Entity entity : entities) {
+			if (!entity.has(Component.POSITION)) continue;
+			
+			Position position = entity.position();
+			if (Util.distance(x, y, position.x(), position.y()) < r) {
+				view.add(entity);
+			}
 		}
 		
 		return new EntityView(view);

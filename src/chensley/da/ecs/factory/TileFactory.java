@@ -26,7 +26,8 @@ public class TileFactory extends Factory<Tile>{
 	protected Tile deserialize(JsonNode node) {
 		final String icon = node.get("icon").asText();
 		final String colorId = node.get("color").asText();
-		final double alpha = node.get("alpha") != null ? node.get("alpha").asDouble(1.0) : 1.0;
+		final double alpha = node.get("alpha") != null ? node.get("alpha").asDouble() : 1.0;
+		final double fowAlpha = node.get("fow_alpha") != null ? node.get("fow_alpha").asDouble() : 0.0;
 		final double xOffset = node.get("x_offset") != null ? node.get("x_offset").asDouble() : 0.0;
 		final double yOffset = node.get("y_offset") != null ? node.get("y_offset").asDouble() : 0.0;
 		
@@ -42,7 +43,7 @@ public class TileFactory extends Factory<Tile>{
 			return null;
 		}
 		
-		return new Tile(icon, Util.color(color, alpha), xOffset, yOffset);
+		return new Tile(icon, Util.color(color, alpha), fowAlpha != 0?Util.color(color, fowAlpha):null, xOffset, yOffset);
 	}
 
 }

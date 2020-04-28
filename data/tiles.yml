@@ -2,7 +2,8 @@
 #tile_id:
 #   icon: string value used to physically represent entity
 #   color: predefined color
-#   alpha: transparency. 0.0 is full transparent. 1.0 is full opaque. Default: 1
+#   alpha: transparency. 0.0 is full transparent. 1.0 is full opaque. Default: 1.0
+#   fow_alpha: transparecny when tile is covered by fog of war. 0.0 is not visible through fow. 1.0 is full opaque. Default 0.0
 #   x_offset: offset for the x axis as a percentage of font size. Default: 0.0
 #   y_offset: offset for the y axist as a percentage of font size. Default: 0.0
 
@@ -10,6 +11,7 @@ empty:
    icon: "\u00B7"
    color: 'term00'
    alpha: 0.5
+   fow_alpha: 0.25
    x_offset: 0.3
    
 player:
@@ -20,3 +22,4 @@ player:
 wall:
    icon: "\u2B1B"
    color: 'term00'
+   fow_alpha: 0.25

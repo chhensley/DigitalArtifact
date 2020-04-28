@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import chensley.da.message.MessageManager;
 import chensley.da.message.MessageManager.Context;
+import chensley.da.Util;
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.components.Tile;
@@ -54,6 +55,7 @@ public class UIListener {
 	 * Draws visible game map
 	 * @param center
 	 * 		Entity representing the center of the map
+	 * 		This entity must have position and vision components
 	 * @param ctxt
 	 * 		Context object passed from consumer
 	 */
@@ -61,10 +63,6 @@ public class UIListener {
 		//Draw empty squares
 		gui.termClear();
 		Tile empty = ctxt.mgr().factory().tiles().get("empty");
-		for(int x = 0; x < ctxt.config().term().width(); x++)
-			for(int y = 0; y < ctxt.config().term().height(); y++) {
-				gui.termDraw(empty.icon(), empty.color(), x, y, empty.xOffset(), empty.yOffset());
-			}
 		
 		//Set upper and lower X bounds of visible area
 		int minX = center.position().x() - ctxt.config().term().width() / 2;
@@ -83,13 +81,31 @@ public class UIListener {
 		} else if (minY + ctxt.config().term().height() >= ctxt.config().map().height()) {
 			minY = ctxt.config().map().height() - ctxt.config().term().height(); 
 		}
+		
 		int maxY = minY + ctxt.config().term().height() - 1;
+		
+		//Draw empty area
+		for(int x = 0; x < ctxt.config().term().width(); x++)
+			for(int y = 0; y < ctxt.config().term().height(); y++) {
+				if (Util.distance(center.position().x(), center.position().y(), x + minX, y + minY) < center.vision().range()) {
+					gui.termDraw(empty.icon(), empty.color(), x, y, empty.xOffset(), empty.yOffset());
+				} else if (empty.fowColor() != null) {
+					gui.termDraw(empty.icon(), empty.fowColor(), x, y, empty.xOffset(), empty.yOffset());
+				}
+			}
 		
 		//Draw entities
 		for(Entity entity : ctxt.mgr().between(minX, minY, maxX, maxY).with(Component.TILE)) {
-			gui.termDraw(entity.tile().icon(), entity.tile().color(), 
-					entity.position().x() - minX, entity.position().y() - minY, 
-					entity.tile().xOffset(), entity.tile().yOffset());
+			if (Util.distance(center.position().x(), center.position().y(), 
+					entity.position().x(), entity.position().y()) < center.vision().range()) {
+				gui.termDraw(entity.tile().icon(), entity.tile().color(), 
+						entity.position().x() - minX, entity.position().y() - minY, 
+						entity.tile().xOffset(), entity.tile().yOffset());
+			} else if (entity.tile().fowColor() != null) {
+				gui.termDraw(entity.tile().icon(), entity.tile().fowColor(), 
+						entity.position().x() - minX, entity.position().y() - minY, 
+						entity.tile().xOffset(), entity.tile().yOffset());
+			}
 		}
 		
 		gui.termRepaint();
