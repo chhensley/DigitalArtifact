@@ -20,6 +20,7 @@ import chensley.da.message.Message.MessageId;
 import chensley.da.message.MessageFactory;
 import chensley.da.ui.GUI;
 import chensley.da.util.Util;
+import squidpony.squidgrid.FOV;
 
 /**
  * Helper class for registering UI related listeners
@@ -84,10 +85,16 @@ public class UIListener {
 		
 		int maxY = minY + ctxt.config().term().height() - 1;
 		
+		//Create light map for player's field of view
+		double[][] opacityMap = Util.opacityMap(ctxt.config().map().width(), ctxt.config().map().height(), 
+				ctxt.mgr().inRadius(center.position().x(), center.position().y(), center.vision().range()));
+		FOV fov = new FOV();
+		double[][] lightMap = fov.calculateFOV(opacityMap, center.position().x(), center.position().y());
+		
 		//Draw empty area
 		for(int x = 0; x < ctxt.config().term().width(); x++)
 			for(int y = 0; y < ctxt.config().term().height(); y++) {
-				if (Util.distance(center.position().x(), center.position().y(), x + minX, y + minY) < center.vision().range()) {
+				if (lightMap[x + minX][y + minY] > 0.0) {
 					gui.termDraw(empty.icon(), empty.color(), x, y, empty.xOffset(), empty.yOffset());
 				} else if (empty.fowColor() != null) {
 					gui.termDraw(empty.icon(), empty.fowColor(), x, y, empty.xOffset(), empty.yOffset());
@@ -96,8 +103,7 @@ public class UIListener {
 		
 		//Draw entities
 		for(Entity entity : ctxt.mgr().between(minX, minY, maxX, maxY).with(Component.TILE)) {
-			if (Util.distance(center.position().x(), center.position().y(), 
-					entity.position().x(), entity.position().y()) < center.vision().range()) {
+			if(lightMap[entity.position().x()][entity.position().y()] > 0.0) {
 				gui.termDraw(entity.tile().icon(), entity.tile().color(), 
 						entity.position().x() - minX, entity.position().y() - minY, 
 						entity.tile().xOffset(), entity.tile().yOffset());

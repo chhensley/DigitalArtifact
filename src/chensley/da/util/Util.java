@@ -79,11 +79,12 @@ public class Util {
 	 * @return
 	 * 		Opacity map
 	 */
-	public static BoolMap opacityMap(int width, int height, EntityView view) {
-		BoolMap opacityMap = new BoolMap(width, height);
+	public static double[][] opacityMap(int width, int height, EntityView view) {
+		double[][] opacityMap = new double[width][height];
+		
 		for(Entity entity : view) {
 			if (entity.physics().isOpaque())
-				opacityMap.set(true, entity.position().x(), entity.position().y());
+				opacityMap[entity.position().x()][entity.position().y()] = 1.0;
 		}
 		
 		return opacityMap;
