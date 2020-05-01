@@ -35,6 +35,6 @@ public class RandomNumberGenerator {
 	 * 		Random integer
 	 */
 	public int nextInt(int min, int max) {
-		return random.nextInt(max - min) + min;
+		return random.nextInt(max -  min + 1) + min;
 	}
 }
