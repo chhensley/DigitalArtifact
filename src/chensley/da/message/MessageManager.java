@@ -6,14 +6,15 @@
 package chensley.da.message;
 
 import java.util.ArrayList;
-import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import chensley.da.Config;
 import chensley.da.ecs.EntityManager;
-import chensley.da.message.Message.MessageId;
+import chensley.da.message.Message.MessageFormatException;
 import chensley.da.util.RandomNumberGenerator;
 
 /**
@@ -32,7 +33,7 @@ public class MessageManager extends MessageStack {
 		 * @param ctxt
 		 * 		Message context
 		 */
-		public void consume(Object msg, Context context);
+		public void consume(Message msg, Context context) throws MessageFormatException;
 	}
 	
 	/**
@@ -61,18 +62,13 @@ public class MessageManager extends MessageStack {
 	}
 	
 	
-	private Map<MessageId, List<Consumer>> consumers = new EnumMap<>(MessageId.class);
+	private Map<String, List<Consumer>> consumers = new HashMap<>();
 	
 	private final Context ctxt;
 	
 	public MessageManager(Config config, EntityManager mgr, RandomNumberGenerator rng, Logger logger) {
 		//Initialize context
 		ctxt = new Context(config, mgr, this, rng, logger);
-		
-		//Initialize consumer lists
-		for(MessageId id : MessageId.values()) {
-			consumers.put(id, new ArrayList<Consumer>());
-		}
 	}
 	
 	/**
@@ -82,7 +78,8 @@ public class MessageManager extends MessageStack {
 	 * @param consumer
 	 * 		Consumer callback
 	 */
-	public void register(MessageId id, Consumer consumer) {
+	public void register(String id, Consumer consumer) {
+		if(!consumers.containsKey(id)) consumers.put(id, new ArrayList<>());
 		consumers.get(id).add(consumer);
 	}
 	
@@ -91,8 +88,16 @@ public class MessageManager extends MessageStack {
 	 */
 	public void consume() {
 		Message msg = pop();
+		//If there are no registered listeners do nothing
+		if(!consumers.containsKey(msg.id())) return; 
+		
+		//Otherwise send the message to each registered consumer
 		for(Consumer consumer : consumers.get(msg.id())) {
-			consumer.consume(msg.body(), ctxt);
+			try {
+				consumer.consume(msg, ctxt);
+			} catch (MessageFormatException e) {
+				ctxt.logger().log(Level.SEVERE, "failed to process message " + msg.id(), e);
+			}
 		}
 	}
 }

@@ -7,34 +7,31 @@ package chensley.da.message.listener;
 
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
-import chensley.da.ecs.EntityView;
 import chensley.da.ecs.components.Position;
-import chensley.da.message.Message.MessageId;
+import chensley.da.message.Message;
 import chensley.da.message.MessageManager;
-import chensley.da.message.messages.MoveMsg;
 /**
  * Helper class for registering UI related listeners
  */
 public class ActionListener {
 	private ActionListener() {};
-	
+
 	public static void register(MessageManager msgMgr) {
-		msgMgr.register(MessageId.ACTION_MOVE, (msg, ctxt)->{
-			MoveMsg moveMsg = (MoveMsg)msg;
-			int x = moveMsg.entity().position().x() + moveMsg.dx();
-			int y = moveMsg.entity().position().y() + moveMsg.dy();
+		msgMgr.register(Message.ACTION_MOVE, (msg, ctxt)->{
+			Entity entity = msg.object("entity", Entity.class);
+			int x = entity.position().x() + msg.integer("dx");
+			int y = entity.position().y() + msg.integer("dy");
 			
 			//Prevent movement out of bounds
 			if(x < 0 || x >= ctxt.config().map().width() || y < 0 || y >= ctxt.config().map().height()) return;
-			
-			EntityView view = ctxt.mgr().at(x, y).with(Component.PHYSICS);
+
 			
 			//Prevent movement into occupied squares
-			for(Entity entity : view) {
-				if(entity.physics().isImpassible()) return;
+			for(Entity viewEntity : ctxt.mgr().at(x, y).with(Component.PHYSICS)) {
+				if(viewEntity.physics().isImpassible()) return;
 			}
 			
-			moveMsg.entity().setPosition(new Position(x, y));
+			entity.setPosition(new Position(x, y));
 		});
 	}
 }

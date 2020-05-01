@@ -10,14 +10,13 @@ import java.util.logging.Level;
 
 import javax.swing.SwingUtilities;
 
-import chensley.da.message.MessageManager;
-import chensley.da.message.MessageManager.Context;
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.components.Tile;
 import chensley.da.message.Message;
-import chensley.da.message.Message.MessageId;
 import chensley.da.message.MessageFactory;
+import chensley.da.message.MessageManager;
+import chensley.da.message.MessageManager.Context;
 import chensley.da.ui.GUI;
 import chensley.da.util.Util;
 import squidpony.squidgrid.FOV;
@@ -118,14 +117,14 @@ public class UIListener {
 	}
 	
 	public static void register(MessageManager msgMgr) {
-		msgMgr.register(MessageId.APP_START, (msg, ctxt)->{
+		msgMgr.register(Message.APP_START, (msg, ctxt)->{
 			gui = new GUI(ctxt.config(), ctxt.logger());
 			SwingUtilities.invokeLater(gui::launch);
 			ctxt.logger().log(Level.INFO, "booting spectre virtual assitant");
 			ctxt.logger().log(Level.INFO, "initializing retinal display");
 		});
 		
-		msgMgr.register(MessageId.AWAIT_INPUT, (msg, ctxt)->{
+		msgMgr.register(Message.AWAIT_INPUT, (msg, ctxt)->{
 			KeyEvent e = gui.listen();
 			String keyText = KeyEvent.getKeyText(e.getKeyCode());
 			gui.showTerm();
@@ -145,11 +144,12 @@ public class UIListener {
 			}
 		});
 		
-		msgMgr.register(MessageId.TERM_REFRESH, (msg, ctxt)->
-			SwingUtilities.invokeLater(()->drawVisible((Entity) msg, ctxt))
-		);
+		msgMgr.register(Message.TERM_REFRESH, (msg, ctxt)-> {
+			Entity entity = msg.object("entity", Entity.class);
+			SwingUtilities.invokeLater(()->drawVisible(entity, ctxt));
+		});
 		
-		msgMgr.register(MessageId.TURN_START, (msg, ctxt) -> {
+		msgMgr.register(Message.TURN_START, (msg, ctxt) -> {
 			ctxt.stack().publish(MessageFactory.awaitInput());
 			ctxt.stack().publish(MessageFactory.termRefresh(ctxt.mgr().player()));
 		});

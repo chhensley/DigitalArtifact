@@ -5,9 +5,6 @@
  **/
 package chensley.da.message.listener;
 
-import chensley.da.message.MessageManager;
-import chensley.da.message.MessageManager.Context;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Level;
@@ -18,7 +15,9 @@ import chensley.da.ecs.components.Position;
 import chensley.da.mapgen.CityTree;
 import chensley.da.mapgen.PartitionTree;
 import chensley.da.mapgen.Point;
-import chensley.da.message.Message.MessageId;
+import chensley.da.message.Message;
+import chensley.da.message.MessageManager;
+import chensley.da.message.MessageManager.Context;
 
 /**
  * Helper class for registering listeners related to creating entities
@@ -146,7 +145,7 @@ public class FactoryListener {
 
 	
 	public static void register(MessageManager msgMgr) {
-		msgMgr.register(MessageId.APP_START, (msg, ctxt)->{
+		msgMgr.register(Message.APP_START, (msg, ctxt)->{
 			GameMap gameMap = new GameMap(ctxt.config().map().width(), ctxt.config().map().height());
 			
 			CityTree tree = new CityTree(new Point(0, 0), new Point(199, 199), ctxt.rng().nextBool(), ctxt.config(), ctxt.rng());

@@ -5,13 +5,13 @@
  **/
 package chensley.da.message.listener;
 
-import chensley.da.message.MessageFactory;
-import chensley.da.message.MessageManager;
-
 import java.util.logging.Level;
 
-import chensley.da.message.Message.MessageId;
+import chensley.da.message.Message;
+import chensley.da.message.MessageFactory;
+import chensley.da.message.MessageManager;
 import chensley.da.util.Updater;
+
 /**
  * Helper class for registering system related listeners
  */
@@ -19,7 +19,7 @@ public class SystemListener {
 	private SystemListener() {};
 	
 	public static void register(MessageManager msgMgr) {
-		msgMgr.register(MessageId.APP_UPDATE, (msg, ctxt)->{
+		msgMgr.register(Message.APP_UPDATE, (msg, ctxt)->{
 			//Updater(String downloadUrl, String runCmd, String jarPath, Logger logger)
 			Updater updater = new Updater(
 				ctxt.config().update().downloadUrl(),
