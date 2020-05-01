@@ -26,10 +26,10 @@ public class Entity {
 	
 	public Entity(Entity entity) {
 		this.label = entity.label;
-		if (entity.has(Component.PHYSICS)) this.setPhysics(new Physics(entity.physics));
-		if (entity.has(Component.POSITION)) this.setPosition(new Position(entity.position));
+		this.setPhysics(entity.physics);
+		this.setPosition(entity.position);
 		this.setTile(entity.tile);
-		if (entity.has(Component.VISION)) this.setVision(new Vision(entity.vision));
+		this.setVision(entity.vision);
 	}
 	
 	/**
