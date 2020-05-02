@@ -2,6 +2,10 @@
 #entities:
 #   label: text label displayed to user
 #   tile: id of tile object defined in tiles.yml
+#   destructable:
+#      hit_points: total damage that entity can sustain before being destroyed
+#      impact_armor: resistance to melee damage. default: 0
+#      on_destroy: message id that is published when the entity is destroyed
 #   physics: object physics
 #      impassible: does this object block movement. default: false
 #      opaque: does this object block line of sight. default: false
@@ -12,17 +16,18 @@
 empty:
    label: 'empty'
    tile: 'empty'
-   
+
+#Enemy gang member   
 ganger:
    label: 'ganger'
    tile: 'ganger'
+   destructable:
+      hit_points: 3
+      on_destroy: 'destroy_person'
    physics:
       impassible: true
    vision:
       range: 15
-   destructable:
-      hit_points: 3
-      on_destroy: 'destroy_person'
 
 #Player object
 player:
