@@ -1,0 +1,4 @@
+#Generic enemy state machine
+enemy:
+   attack: 'state_attack'
+   wait: 'state_wait'

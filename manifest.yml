@@ -2,6 +2,10 @@
 colors:
    - 'data/colors.yml'
    
+#Files defining state machines for AI
+machines:
+   - 'data/machines.yml'   
+   
 #Files defining entity tiles
 tiles:
    - 'data/tiles.yml'

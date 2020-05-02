@@ -21,6 +21,9 @@ empty:
 ganger:
    label: 'ganger'
    tile: 'ganger'
+   ai:
+      state: 'wait'
+      machine: 'enemy'
    destructable:
       hit_points: 3
       on_destroy: 'destroy_person'

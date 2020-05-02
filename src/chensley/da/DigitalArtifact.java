@@ -58,6 +58,7 @@ public class DigitalArtifact {
 		try {
 			JsonNode root = mapper.readTree(file);
 			factory.colors().load(asArray(root.get("colors")));
+			factory.machines().load(asArray(root.get("machines")));
 			factory.tiles().load(asArray(root.get("tiles")));
 			factory.load(asArray(root.get("entities")));
 		} catch (IOException e) {

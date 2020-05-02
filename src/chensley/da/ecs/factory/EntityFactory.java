@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import chensley.da.ecs.Entity;
+import chensley.da.ecs.components.AI;
 import chensley.da.ecs.components.Destructable;
 import chensley.da.ecs.components.Physics;
 import chensley.da.ecs.components.Vision;
@@ -21,13 +22,21 @@ import chensley.da.ecs.components.Vision;
  */
 public class EntityFactory extends Factory<Entity> {
 	private final ColorFactory colors;
+	private final StateMachineFactory machines;
 	private final TileFactory tiles;
 	
 	public EntityFactory(ObjectMapper mapper, Logger logger) {
 		super(mapper, logger);
 		this.colors = new ColorFactory(mapper, logger);
+		this.machines = new StateMachineFactory(mapper, logger);
 		this.tiles = new TileFactory(colors, mapper, logger);
 		this.copy = true;
+	}
+	
+	private AI deserializeAI(JsonNode node) {
+		String state = node.get("state").asText();
+		String machine = node.get("machine").asText();
+		return new AI(state, machines.get(machine));
 	}
 	
 	private Destructable deserializeDestructable(JsonNode node) {
@@ -53,6 +62,7 @@ public class EntityFactory extends Factory<Entity> {
 		if(label == null) return null; //Entity must have label
 		
 		Entity entity = new Entity(label);
+		entity.setAI(node.get("ai") != null ? deserializeAI(node.get("ai")) : null);
 		entity.setDestructable(node.get("destructable") != null ? deserializeDestructable(node.get("destructable")) : null);
 		entity.setPhysics(node.get("physics") != null ? deserializePhysics(node.get("physics")) : null);
 		entity.setTile(node.get("tile") != null ? tiles.get(node.get("tile").asText()) : null);
@@ -69,6 +79,7 @@ public class EntityFactory extends Factory<Entity> {
 	
 	//Access underlying factories
 	public ColorFactory colors() { return colors; }
+	public StateMachineFactory machines() { return machines; }
 	public TileFactory tiles() { return tiles; }
 
 }
