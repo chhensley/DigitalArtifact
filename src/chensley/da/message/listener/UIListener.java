@@ -12,6 +12,7 @@ import javax.swing.SwingUtilities;
 
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
+import chensley.da.ecs.EntityView;
 import chensley.da.ecs.components.Tile;
 import chensley.da.message.Message;
 import chensley.da.message.MessageFactory;
@@ -102,7 +103,15 @@ public class UIListener {
 			}
 		
 		//Draw entities
-		for(Entity entity : ctxt.mgr().between(minX, minY, maxX, maxY).with(Component.TILE)) {
+		EntityView view = ctxt.mgr().between(minX, minY, maxX, maxY).with(Component.TILE);
+		boolean[][] impassibleMap = Util.impassibleMap(ctxt.config().map().width(), 
+				ctxt.config().map().height(), view.with(Component.PHYSICS));
+		for(Entity entity : view) {
+			//Don't draw if this is a passible entity and an impassible entity is also in this position
+			if (impassibleMap[entity.position().x()][entity.position().y()] && 
+					(!entity.has(Component.PHYSICS) || !entity.physics().isImpassible())) continue;
+			
+			//Otherwise draw this entity
 			if(lightMap[entity.position().x()][entity.position().y()] > 0.0) {
 				gui.termDraw(entity.tile().icon(), entity.tile().color(), 
 						entity.position().x() - minX, entity.position().y() - minY, 

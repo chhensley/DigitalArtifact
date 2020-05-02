@@ -69,6 +69,27 @@ public class Util {
 	}
 	
 	/**
+	 * Builds a map marking impassible squares
+	 * @param width
+	 * 		Game map width
+	 * @param height
+	 * 		Game map height
+	 * @param view
+	 * 		A view containing entities with physics and position
+	 * @return
+	 * 		Map of impassible squares
+	 */
+	public static boolean[][] impassibleMap(int width, int height, EntityView view) {
+		boolean[][] impassibleMap = new boolean[width][height];
+		for(Entity entity : view) {
+			if(entity.physics().isImpassible())
+				impassibleMap[entity.position().x()][entity.position().y()] = true;
+		}
+		
+		return impassibleMap;
+	}
+	
+	/**
 	 * Builds a map marking opaque objects for use by FOV calculations
 	 * @param width
 	 * 		Game map width
