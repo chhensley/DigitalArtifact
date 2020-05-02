@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import chensley.da.ecs.Entity;
+import chensley.da.ecs.components.Destructable;
 import chensley.da.ecs.components.Physics;
 import chensley.da.ecs.components.Vision;
 
@@ -27,6 +28,13 @@ public class EntityFactory extends Factory<Entity> {
 		this.colors = new ColorFactory(mapper, logger);
 		this.tiles = new TileFactory(colors, mapper, logger);
 		this.copy = true;
+	}
+	
+	private Destructable deserializeDestructable(JsonNode node) {
+		int hp = node.get("hit_points").asInt();
+		int impactArmor = node.get("impact_armor") != null ? node.get("impact_armor").asInt() : 0;
+		String onDestroy = node.get("on_destroy").asText();
+		return new Destructable(hp, impactArmor, onDestroy);
 	}
 	
 	private Physics deserializePhysics(JsonNode node) {
@@ -45,8 +53,9 @@ public class EntityFactory extends Factory<Entity> {
 		if(label == null) return null; //Entity must have label
 		
 		Entity entity = new Entity(label);
-		entity.setTile(node.get("tile") != null ? tiles.get(node.get("tile").asText()) : null);
+		entity.setDestructable(node.get("destructable") != null ? deserializeDestructable(node.get("destructable")) : null);
 		entity.setPhysics(node.get("physics") != null ? deserializePhysics(node.get("physics")) : null);
+		entity.setTile(node.get("tile") != null ? tiles.get(node.get("tile").asText()) : null);
 		entity.setVision(node.get("vision") != null ? deserializeVision(node.get("vision")) : null);
 		return entity;
 	}

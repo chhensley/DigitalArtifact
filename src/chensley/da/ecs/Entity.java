@@ -7,6 +7,7 @@ package chensley.da.ecs;
 
 import java.util.BitSet;
 
+import chensley.da.ecs.components.Destructable;
 import chensley.da.ecs.components.Physics;
 import chensley.da.ecs.components.Position;
 import chensley.da.ecs.components.Tile;
@@ -26,6 +27,7 @@ public class Entity {
 	
 	public Entity(Entity entity) {
 		this.label = entity.label;
+		if (entity.destructable != null) this.setDestructable(new Destructable(entity.destructable));
 		this.setPhysics(entity.physics);
 		this.setPosition(entity.position);
 		this.setTile(entity.tile);
@@ -50,10 +52,18 @@ public class Entity {
 	public String label() { return label; }
 	
 	//Components
+	private Destructable destructable = null;
 	private Physics physics = null;
 	private Position position = null;
 	private Tile tile = null;
 	private Vision vision = null;
+	
+	public void setDestructable(Destructable destructable) {
+		components.set(Component.DESTRUCTABLE.ordinal(), destructable != null);
+		this.destructable = destructable;
+	}
+	
+	public Destructable destructable() { return destructable; }
 	
 	public void setPhysics(Physics physics) {
 		components.set(Component.PHYSICS.ordinal(), physics != null);

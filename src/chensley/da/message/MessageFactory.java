@@ -14,6 +14,36 @@ public class MessageFactory {
 	
 	private MessageFactory() {};
 	
+	/**
+	 * Creates action damage message
+	 * @param src
+	 * 		Entity dealing the damages
+	 * @param tgt
+	 * 		Entity being damaged
+	 * @param impDmg
+	 * 		Impact damage
+	 * @return
+	 * 		action_damage message
+	 */
+	public static Message actionDamage(Entity src, Entity tgt, int impDmg) {
+		Message msg = new Message(Message.ACTION_DAMAGE);
+		msg.put("src", src);
+		msg.put("tgt", tgt);
+		msg.put("impDmg", impDmg);
+		return msg;
+	}
+	
+	/**
+	 * Creates action move message
+	 * @param entity
+	 * 		Entity that's moving
+	 * @param dx
+	 * 		Change in x positioon
+	 * @param dy
+	 * 		Change in y position
+	 * @return
+	 * 		action_move message
+	 */
 	public static Message actionMove(Entity entity, int dx, int dy) {
 		Message msg = new Message(Message.ACTION_MOVE);
 		msg.put("entity", entity);
@@ -21,14 +51,29 @@ public class MessageFactory {
 		msg.put("dy", dy);
 		return msg;
 	}
-	public static Message appStart() { return new Message(Message.APP_START); }
-	public static Message appUpdate() { return new Message(Message.APP_UPDATE); }
-	public static Message awaitInput() { return new Message(Message.AWAIT_INPUT); }
+	
+	public static Message onDestroy(String id, Entity entity) {
+		Message msg = new Message(id);
+		msg.put("entity", entity);
+		return msg;
+	}
+
+	/**
+	 * Creates a terminal refresh message
+	 * @param entity
+	 * 		Entity on which the terminal is centered
+	 * @return
+	 * 		term_refresh message
+	 */
 	public static Message termRefresh(Entity entity) {
 		Message msg = new Message(Message.TERM_REFRESH);
 		msg.put("entity", entity);
 		return msg;
 	}
+	
+	public static Message appStart() { return new Message(Message.APP_START); }
+	public static Message appUpdate() { return new Message(Message.APP_UPDATE); }
+	public static Message awaitInput() { return new Message(Message.AWAIT_INPUT); }
 	public static Message turnEnd() { return new Message(Message.TURN_END); }
 	public static Message turnStart() { return new Message(Message.TURN_START); }
 }

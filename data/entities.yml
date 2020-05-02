@@ -12,6 +12,17 @@
 empty:
    label: 'empty'
    tile: 'empty'
+   
+ganger:
+   label: 'ganger'
+   tile: 'ganger'
+   physics:
+      impassible: true
+   vision:
+      range: 15
+   destructable:
+      hit_points: 3
+      on_destroy: 'destroy_person'
 
 #Player object
 player:

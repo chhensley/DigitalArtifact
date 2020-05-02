@@ -14,10 +14,18 @@ empty:
    fow_alpha: 0.25
    x_offset: 0.3
    
+ganger:
+   icon: "\u2663"
+   color: 'term01'
+   
 player:
    icon: '@'
    color: 'term01'
    x_offset: 0.3
+   
+splat:
+   icon: "\u273C"
+   color: 'term00'
    
 wall:
    icon: "\u2B1B"
