@@ -86,7 +86,8 @@ public class UIListener {
 		
 		//Create light map for player's field of view
 		double[][] opacityMap = Util.opacityMap(ctxt.config().map().width(), ctxt.config().map().height(), 
-				ctxt.mgr().inRadius(center.position().x(), center.position().y(), center.vision().range()));
+				ctxt.mgr().inRadius(center.position().x(), center.position().y(), center.vision().range())
+				.with(Component.PHYSICS));
 		FOV fov = new FOV();
 		double[][] lightMap = fov.calculateFOV(opacityMap, center.position().x(), center.position().y());
 		
