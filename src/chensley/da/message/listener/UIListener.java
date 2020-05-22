@@ -13,6 +13,7 @@ import javax.swing.SwingUtilities;
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.EntityView;
+import chensley.da.ecs.components.Position;
 import chensley.da.ecs.components.Tile;
 import chensley.da.message.Message;
 import chensley.da.message.MessageFactory;
@@ -51,6 +52,16 @@ public class UIListener {
 		}
 	}
 	
+	private int y2(int d, int x1, int y1, int x2) {
+		double y2 = Math.pow(d, 2) - Math.pow(x2 - x1, 2);
+		y2 = Math.sqrt(y2) + y1;
+		return (int)Math.round(y2);
+	}
+	
+	private static boolean inRange(Entity center, int x, int y) {
+		Position position = center.position();
+		return Math.round(Util.distance(position.x(), position.y(), x, y)) <= center.vision().range();
+	}
 	
 	/**
 	 * Draws visible game map
@@ -89,13 +100,13 @@ public class UIListener {
 		double[][] opacityMap = Util.opacityMap(ctxt.config().map().width(), ctxt.config().map().height(), 
 				ctxt.mgr().inRadius(center.position().x(), center.position().y(), center.vision().range())
 				.with(Component.PHYSICS));
-		FOV fov = new FOV();
+		FOV fov = new FOV(FOV.SHADOW);
 		double[][] lightMap = fov.calculateFOV(opacityMap, center.position().x(), center.position().y());
 		
 		//Draw empty area
 		for(int x = 0; x < ctxt.config().term().width(); x++)
 			for(int y = 0; y < ctxt.config().term().height(); y++) {
-				if (lightMap[x + minX][y + minY] > 0.0) {
+				if (lightMap[x + minX][y + minY] > 0.0 && inRange(center, x + minX, y + minY)) {
 					gui.termDraw(empty.icon(), empty.color(), x, y, empty.xOffset(), empty.yOffset());
 				} else if (empty.fowColor() != null) {
 					gui.termDraw(empty.icon(), empty.fowColor(), x, y, empty.xOffset(), empty.yOffset());
@@ -112,7 +123,8 @@ public class UIListener {
 					(!entity.has(Component.PHYSICS) || !entity.physics().isImpassible())) continue;
 			
 			//Otherwise draw this entity
-			if(lightMap[entity.position().x()][entity.position().y()] > 0.0) {
+			if(lightMap[entity.position().x()][entity.position().y()] > 0.0
+					&& inRange(center, entity.position().x(), entity.position().y())) {
 				gui.termDraw(entity.tile().icon(), entity.tile().color(), 
 						entity.position().x() - minX, entity.position().y() - minY, 
 						entity.tile().xOffset(), entity.tile().yOffset());
