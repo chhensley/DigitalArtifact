@@ -80,7 +80,6 @@ public class AIListener {
 			Queue<Coord> path = aStar.path(entity.position().x(), entity.position().y(),
 				player.position().x(), player.position().y());
 			
-			if(impassibleMap[path.peek().getX()][path.peek().getY()] == 0)
 				ctxt.stack().publish(MessageFactory.actionMove(entity, 
 					path.peek().getX() - entity.position().x(), 
 					path.peek().getY() - entity.position().y()
