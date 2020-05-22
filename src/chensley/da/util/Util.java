@@ -90,6 +90,21 @@ public class Util {
 	}
 	
 	/**
+	 * Converts an AWT color to an HTML hex color code
+	 * @param color
+	 * 		AWT Color
+	 * @return
+	 * 		RGBA hex color string
+	 */
+	public static String htmlColor(Color color) {
+		return new StringBuilder("#")
+				.append(String.format("%02X", (0xFF & color.getRed())))
+				.append(String.format("%02X", (0xFF & color.getGreen())))
+				.append(String.format("%02X", (0xFF & color.getBlue())))
+				.append(String.format("%02X", (0xFF & color.getAlpha()))).toString();
+	}
+	
+	/**
 	 * Builds a map marking opaque objects for use by FOV calculations
 	 * @param width
 	 * 		Game map width

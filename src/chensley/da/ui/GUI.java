@@ -25,6 +25,7 @@ import javax.swing.text.BadLocationException;
 
 import chensley.da.Config;
 import chensley.da.ui.GUIFactory.TermMenu;
+import chensley.da.util.Util;
 
 /**
  * Main UI
@@ -98,6 +99,13 @@ public class GUI {
 	private JPanel gameOver;
 	private final GUIKeyListener keyListener = new GUIKeyListener();
 	
+	//Widget meter colors
+	private final String meterForeground;
+	
+	//Status display elements
+	private final StatusWidget healthWidget;
+	private final JLabel infoDisplay;
+	
 	//Builds main game window
 	private JFrame window(Config config) {
 		JFrame window = new JFrame(config.title());
@@ -121,14 +129,29 @@ public class GUI {
 		return termPanel;
 	}
 	
-	private JPanel sidePanel(Config config) {
-		JPanel sidePanel = new JPanel();
+	//Builds info display 
+	private JLabel infoDisplay(Config config) {
+		JLabel infoDisplay = new JLabel("");
 		
-		sidePanel.setPreferredSize(new Dimension(config.gui().sideBarWidth(), config.term().height() * config.term().fontSize()));
-		sidePanel.setBackground(config.term().background());
-		sidePanel.setLayout(new GridBagLayout());
-		sidePanel.setBorder(new EmptyBorder(0, config.term().fontSize(), 0, 0));
+		infoDisplay.setBackground(config.term().background());
+		infoDisplay.setForeground(config.term().foreground(2));
+		infoDisplay.setVerticalAlignment(JLabel.TOP);
+		infoDisplay.setVerticalTextPosition(JLabel.TOP);
+		infoDisplay.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		
+		return infoDisplay;
+	}
+	
+	//Builds the player status panel
+	private JPanel statusPanel(Config config, GUIFactory factory) {
+		JPanel statusPanel = new JPanel();
+		
+		statusPanel.setPreferredSize(new Dimension(config.gui().sideBarWidth(), config.term().height() * config.term().fontSize()));
+		statusPanel.setBackground(config.term().background());
+		statusPanel.setLayout(new GridBagLayout());
+		statusPanel.setBorder(new EmptyBorder(0, config.term().fontSize(), 0, 0));
+		
+		//Melee status
 		GridBagConstraints labelCon = new GridBagConstraints();
 		labelCon.weightx = 1.0;
 		labelCon.weighty = 0.0;
@@ -137,7 +160,116 @@ public class GUI {
 		labelCon.gridx = 0;
 		labelCon.gridy = 0;
 		
-		JLabel logLabel = new JLabel("Message Log");
+		statusPanel.add(factory.statusTitle("Melee Weapon"), labelCon);
+		
+		GridBagConstraints statCon = new GridBagConstraints();
+		statCon.weightx = 1.0;
+		statCon.weighty = 0.0;
+		statCon.fill = GridBagConstraints.BOTH;
+		statCon.anchor = GridBagConstraints.NORTHEAST;
+		statCon.gridx = 0;
+		statCon.gridy = 1;
+		
+		StatusWidget melee = factory.statusWidget(infoDisplay);
+		melee.setText("\u270A", "Fist");
+		melee.setDetails("<html>\u270A fist"
+				+ "<br>An unaugmented human fist"
+				+ "<br>Impact Damage: 1 to 3</html>"
+		);
+		statusPanel.add(melee, statCon);
+		
+		//Armor status
+		labelCon = new GridBagConstraints();
+		labelCon.weightx = 1.0;
+		labelCon.weighty = 0.0;
+		labelCon.fill = GridBagConstraints.HORIZONTAL;
+		labelCon.anchor = GridBagConstraints.NORTHEAST;
+		labelCon.gridx = 0;
+		labelCon.gridy = 2;
+		
+		statusPanel.add(factory.statusTitle("Armor"), labelCon);
+		
+		statCon = new GridBagConstraints();
+		statCon.weightx = 1.0;
+		statCon.weighty = 0.0;
+		statCon.fill = GridBagConstraints.BOTH;
+		statCon.anchor = GridBagConstraints.NORTHEAST;
+		statCon.gridx = 0;
+		statCon.gridy = 3;
+		
+		StatusWidget armor = factory.statusWidget(infoDisplay);
+		armor.setText("\u26E8", "Plot Armor");
+		armor.setDetails("<html>\u26E8 Plot Armor"
+			+ "<br>A little extra protection to keep the action dramatic"
+			+ "<br>Impact Resistance: 1</html>"
+		);
+		statusPanel.add(armor, statCon);
+		
+		//Player health display
+		labelCon = new GridBagConstraints();
+		labelCon.weightx = 1.0;
+		labelCon.weighty = 0.0;
+		labelCon.fill = GridBagConstraints.HORIZONTAL;
+		labelCon.anchor = GridBagConstraints.NORTHEAST;
+		labelCon.gridx = 0;
+		labelCon.gridy = 4;
+		
+		statusPanel.add(factory.statusTitle("Health"), labelCon);
+		
+		statCon = new GridBagConstraints();
+		statCon.weightx = 1.0;
+		statCon.weighty = 0.0;
+		statCon.fill = GridBagConstraints.BOTH;
+		statCon.anchor = GridBagConstraints.NORTHEAST;
+		statCon.gridx = 0;
+		statCon.gridy = 5;
+		
+		healthWidget.setForeground(config.term().foreground(0));
+		
+		statusPanel.add(healthWidget, statCon);
+		
+		//Information panel
+		labelCon = new GridBagConstraints();
+		labelCon.weightx = 1.0;
+		labelCon.weighty = 0.0;
+		labelCon.fill = GridBagConstraints.HORIZONTAL;
+		labelCon.anchor = GridBagConstraints.NORTHEAST;
+		labelCon.gridx = 0;
+		labelCon.gridy = 6;
+		
+		statusPanel.add(factory.statusTitle("Information Display"), labelCon);
+		
+		GridBagConstraints infoCon = new GridBagConstraints();
+		infoCon.weightx = 1.0;
+		infoCon.weighty = 1.0;
+		infoCon.fill = GridBagConstraints.BOTH;
+		infoCon.anchor = GridBagConstraints.NORTHEAST;
+		infoCon.gridx = 0;
+		infoCon.gridy = 7;
+		
+		statusPanel.add(infoDisplay, infoCon);
+		
+		return statusPanel;
+	}
+	
+	private JPanel sidePanel(Config config) {
+		JPanel sidePanel = new JPanel();
+		
+		sidePanel.setPreferredSize(new Dimension(config.gui().sideBarWidth(), config.term().height() * config.term().fontSize()));
+		sidePanel.setBackground(config.term().background());
+		sidePanel.setLayout(new GridBagLayout());
+		sidePanel.setBorder(new EmptyBorder(0, config.term().fontSize(), 0, 0));
+		
+		//Message log
+		GridBagConstraints labelCon = new GridBagConstraints();
+		labelCon.weightx = 1.0;
+		labelCon.weighty = 0.0;
+		labelCon.fill = GridBagConstraints.HORIZONTAL;
+		labelCon.anchor = GridBagConstraints.NORTHEAST;
+		labelCon.gridx = 0;
+		labelCon.gridy = 0;
+		
+		JLabel logLabel = new JLabel("=== Message Log ===");
 		logLabel.setForeground(config.term().foreground(0));
 		logLabel.setFont(new Font(config.term().font(), Font.BOLD, config.term().fontSize()));
 		sidePanel.add(logLabel, labelCon);
@@ -156,8 +288,8 @@ public class GUI {
 		msgLog.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		msgLog.setFocusable(false);
 		logger.addHandler(new JTextAreaHandler(msgLog));
-		
 		sidePanel.add(msgLog, logCon);
+		
 		return sidePanel;
 	}
 	
@@ -166,7 +298,6 @@ public class GUI {
 		label.setBackground(config.term().background());
 		label.setForeground(config.term().foreground(2));
 		label.setFont(new Font(config.term().font(), Font.PLAIN, 26));
-		//item.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		
 		JPanel gameOver = new JPanel();
 		gameOver.setPreferredSize(new Dimension(config.term().fontSize() * config.term().width() + config.term().fontSize()/2, 
@@ -208,7 +339,15 @@ public class GUI {
 		termPanel = termPanel(config);
 		aboutMenu = aboutMenu(config, factory);
 		gameOver = gameOver(config);
+		
+		infoDisplay = infoDisplay(config);
+		
+		meterForeground = Util.htmlColor(config.term().foreground(0));
+		
+		healthWidget = factory.statusWidget(infoDisplay);
+		
 		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
+		window.getContentPane().add(statusPanel(config, factory), BorderLayout.CENTER);
 		window.getContentPane().add(sidePanel(config), BorderLayout.LINE_END);
 		window.getContentPane().add(factory.menuLabel(config.controls().about() + " for help and to update"), BorderLayout.PAGE_END);
 		
@@ -261,6 +400,49 @@ public class GUI {
 	private void resetTerm() {
 		window.getContentPane().remove(aboutMenu);
 		window.getContentPane().remove(termPanel);
+	}
+	
+	/**
+	 * Sets the current hit points
+	 * @param max
+	 * 		Maximum hit points
+	 * @param dmg
+	 * 		Total damage taken
+	 */
+	public void setHealth(int max, int total) {
+		//Calculate the number of characters are needed to represent total health on a 25 bar meter
+		int bars = (total * 25)/max;
+		if (bars > 25) bars = 25;
+		if (bars < 1) bars = total > 0 ? 1 : 0;
+		
+		//Add filled section of health meter
+		StringBuilder meter = new StringBuilder("<html><font color=\"")
+				.append(meterForeground)
+				.append("\">");
+		
+		for(int i = 0; i < bars; i++) {
+			meter.append("\u25AE");
+		}
+		
+		//Add empty section of health meter
+		meter.append("</font><font color=\"")
+			.append(meterForeground)
+			.append("\">");
+		
+		for(int i = 0; i < 25 - bars; i++) {
+			meter.append("\u25AF");
+		}
+		meter.append("</font></html>");
+		
+		healthWidget.setText(meter.toString());
+		
+		//Set detailed info for health
+		healthWidget.setDetails(new StringBuilder("<html>Maximum Hit Points: ")
+				.append(max)
+				.append("<br>Total Hit Points: ")
+				.append(total)
+				.append("</html>").toString()
+		);
 	}
 	
 	//Shows about menu

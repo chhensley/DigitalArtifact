@@ -128,7 +128,8 @@ public class UIListener {
 	public static void register(MessageManager msgMgr) {
 		msgMgr.register(Message.APP_GAMEOVER, (msg, ctxt)->{
 			ctxt.logger().log(Level.INFO, "Game Over");
-			gui.showGameOver();
+			SwingUtilities.invokeLater(()->gui.setHealth(ctxt.mgr().player().destructable().hitPoints(), 0));
+			SwingUtilities.invokeLater(gui::showGameOver);
 			for(;;) {
 				try {
 					Thread.sleep(6000);
@@ -167,6 +168,7 @@ public class UIListener {
 		
 		msgMgr.register(Message.TERM_REFRESH, (msg, ctxt)-> {
 			Entity entity = msg.object("entity", Entity.class);
+			SwingUtilities.invokeLater(()->gui.setHealth(entity.destructable().hitPoints(), entity.destructable().currentHitPoints()));
 			SwingUtilities.invokeLater(()->drawVisible(entity, ctxt));
 		});
 		

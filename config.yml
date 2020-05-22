@@ -44,6 +44,6 @@ update:
    cmd: 'java -jar DigitalArtifact.jar'
 gui:
    #Width of the gui side bar in pixels
-   sidebar_width: 600
+   sidebar_width: 550
    #Maxium number of messages to retain in onscreen message log
    log_size: 40

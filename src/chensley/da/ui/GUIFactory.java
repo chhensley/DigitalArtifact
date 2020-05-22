@@ -63,12 +63,11 @@ public class GUIFactory {
 		}
 	}
 	
-	
 	private final Config config;
 	
 	public GUIFactory(Config config) {
 		this.config = config;
-	};
+	}
 	
 	//Returns simulated terminal menu
 	public TermMenu menu() {
@@ -96,7 +95,7 @@ public class GUIFactory {
 	 * 		Header label
 	 */
 	public JLabel menuTitle(String text) {
-		JLabel title =  new JLabel("### " + text.toUpperCase() + " ###");
+		JLabel title =  new JLabel("=== " + text.toUpperCase() + " ===");
 		title.setForeground(config.term().foreground(0));
 		title.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		
@@ -154,5 +153,24 @@ public class GUIFactory {
 	//Creates a blank label for use inside a terminal menu
 	public JLabel menuSpacer() {
 		return new JLabel(" ");
+	}
+	
+	//Title displayed above a game status widget
+	public JLabel statusTitle(String text) {
+		JLabel title = new JLabel("=== " + text + " ===");
+		title.setForeground(config.term().foreground(0));
+		title.setFont(new Font(config.term().font(), Font.BOLD, config.term().fontSize()));
+		
+		return title;
+	}
+	
+	//Creates a game status widget
+	public StatusWidget statusWidget(JLabel info) {
+		StatusWidget item = new StatusWidget(info);
+		item.setText("");
+		item.setForeground(config.term().foreground(2));
+		item.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
+		
+		return item;
 	}
 }
