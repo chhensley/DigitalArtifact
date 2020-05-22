@@ -25,7 +25,6 @@ import javax.swing.text.BadLocationException;
 
 import chensley.da.Config;
 import chensley.da.ui.GUIFactory.TermMenu;
-import chensley.da.util.Util;
 
 /**
  * Main UI
@@ -98,9 +97,6 @@ public class GUI {
 	private JPanel aboutMenu;
 	private JPanel gameOver;
 	private final GUIKeyListener keyListener = new GUIKeyListener();
-	
-	//Widget meter colors
-	private final String meterForeground;
 	
 	//Status display elements
 	private final StatusWidget healthWidget;
@@ -342,9 +338,6 @@ public class GUI {
 		gameOver = gameOver(config);
 		
 		infoDisplay = infoDisplay(config);
-		
-		meterForeground = Util.htmlColor(config.term().foreground(0));
-		
 		healthWidget = factory.statusWidget(infoDisplay);
 		
 		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
