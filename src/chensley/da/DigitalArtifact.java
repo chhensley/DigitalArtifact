@@ -96,12 +96,12 @@ public class DigitalArtifact {
 	}
 	
 	public static void main(String[] args) throws IOException {
+		AIListener.register(msgMgr);
 		UIListener.register(msgMgr);
 		FactoryListener.register(msgMgr);
 		ActionListener.register(msgMgr);
 		DestroyListener.register(msgMgr);
 		SystemListener.register(msgMgr);
-		AIListener.register(msgMgr);
 		
 		deleteFile(Paths.get(config.update().jar()), logger);
 		deleteFile(Paths.get(Util.fileNameFromUrl(config.update().downloadUrl())), logger);
