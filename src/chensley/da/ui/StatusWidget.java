@@ -64,6 +64,10 @@ public class StatusWidget extends JLabel{
 	
 	private static final long serialVersionUID = 99018804897880490L;
 	
+	//Strings for drawing meters
+	private final static String ON = "\u25AE";
+	private final static String OFF = "\u25AF";
+	
 	private String details;
 
 	/**
@@ -92,7 +96,31 @@ public class StatusWidget extends JLabel{
 		setText(content);
 	}
 	
+	public void setMeter(int max, int total, int width) {
+		
+		//Calculate number of characters need to represent max value
+		int bars = (total * width)/max;
+		if (bars > width) bars = width;
+		if (bars < 1) bars = total > 0 ? 1 : 0;
+		
+		StringBuilder meter = new StringBuilder("  ");
+		
+		//Add filled section of meter
+		for(int i = 0; i < bars; i++) {
+			meter.append(ON);
+		}
+		
+		//Add unfilled section of meter
+		for(int i = 0; i < width - bars; i++) {
+			meter.append(OFF);
+		}
+		
+		setText(meter.toString());
+	}
+	
 	//Sets details displayed in on screen information window
 	public String details() { return details; }
-	public void setDetails(String details) { this.details = details; }
+	public void setDetails(String details) {
+		this.details = "<html>" + details.replace("\n", "<br>") + "</html>";
+	}
 }

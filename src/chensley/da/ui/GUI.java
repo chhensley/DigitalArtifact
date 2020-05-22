@@ -172,9 +172,9 @@ public class GUI {
 		
 		StatusWidget melee = factory.statusWidget(infoDisplay);
 		melee.setText("\u270A", "Fist");
-		melee.setDetails("<html>\u270A fist"
-				+ "<br>An unaugmented human fist"
-				+ "<br>Impact Damage: 1 to 3</html>"
+		melee.setDetails("\u270A fist"
+				+ "\nAn unaugmented human fist"
+				+ "\nImpact Damage: 1 to 3"
 		);
 		statusPanel.add(melee, statCon);
 		
@@ -199,9 +199,9 @@ public class GUI {
 		
 		StatusWidget armor = factory.statusWidget(infoDisplay);
 		armor.setText("\u26E8", "Plot Armor");
-		armor.setDetails("<html>\u26E8 Plot Armor"
-			+ "<br>A little extra protection to keep the action dramatic"
-			+ "<br>Impact Resistance: 1</html>"
+		armor.setDetails("\u26E8 Plot Armor"
+			+ "\nA little extra protection to keep the action dramatic"
+			+ "\nImpact Resistance: 1"
 		);
 		statusPanel.add(armor, statCon);
 		
@@ -411,38 +411,14 @@ public class GUI {
 	 * 		Total damage taken
 	 */
 	public void setHealth(int max, int total) {
-		//Calculate the number of characters are needed to represent total health on a 25 bar meter
-		int bars = (total * 10)/max;
-		if (bars > 10) bars = 10;
-		if (bars < 1) bars = total > 0 ? 1 : 0;
-		
-		//Add filled section of health meter
-		StringBuilder meter = new StringBuilder("<html><font color=\"")
-				.append(meterForeground)
-				.append("\">");
-		
-		for(int i = 0; i < bars; i++) {
-			meter.append("\u25AE");
-		}
-		
-		//Add empty section of health meter
-		meter.append("</font><font color=\"")
-			.append(meterForeground)
-			.append("\">");
-		
-		for(int i = 0; i < 10 - bars; i++) {
-			meter.append("\u25AF");
-		}
-		meter.append("</font></html>");
-		
-		healthWidget.setText(meter.toString());
+		//Display remaining hit points as a meter
+		healthWidget.setMeter(max, total, 10);
 		
 		//Set detailed info for health
-		healthWidget.setDetails(new StringBuilder("<html>Maximum Hit Points: ")
+		healthWidget.setDetails(new StringBuilder("Maximum Hit Points: ")
 				.append(max)
-				.append("<br>Total Hit Points: ")
-				.append(total)
-				.append("</html>").toString()
+				.append("\nTotal Hit Points: ")
+				.append(total).toString()
 		);
 	}
 	
