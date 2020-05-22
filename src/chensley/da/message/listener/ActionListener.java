@@ -13,6 +13,7 @@ import chensley.da.ecs.components.Position;
 import chensley.da.message.Message;
 import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
+
 /**
  * Helper class for registering action listeners
  */

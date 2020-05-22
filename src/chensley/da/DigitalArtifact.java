@@ -22,6 +22,7 @@ import chensley.da.ecs.factory.ColorFactory;
 import chensley.da.ecs.factory.EntityFactory;
 import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
+import chensley.da.message.listener.AIListener;
 import chensley.da.message.listener.ActionListener;
 import chensley.da.message.listener.DestroyListener;
 import chensley.da.message.listener.FactoryListener;
@@ -100,6 +101,7 @@ public class DigitalArtifact {
 		ActionListener.register(msgMgr);
 		DestroyListener.register(msgMgr);
 		SystemListener.register(msgMgr);
+		AIListener.register(msgMgr);
 		
 		deleteFile(Paths.get(config.update().jar()), logger);
 		deleteFile(Paths.get(Util.fileNameFromUrl(config.update().downloadUrl())), logger);
