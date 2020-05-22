@@ -320,6 +320,7 @@ public class GUI {
 				.append(',')
 				.append(config.controls().right())
 				.toString()));
+		menu.add(factory.menuLabel("Mouse over UI elements for more information"));
 		menu.add(factory.menuSpacer());
 		menu.add(factory.menuTitle("Options"));
 		menu.add(factory.menuItem("\u2714", "Update", null, KeyEvent.VK_U));
@@ -411,8 +412,8 @@ public class GUI {
 	 */
 	public void setHealth(int max, int total) {
 		//Calculate the number of characters are needed to represent total health on a 25 bar meter
-		int bars = (total * 25)/max;
-		if (bars > 25) bars = 25;
+		int bars = (total * 10)/max;
+		if (bars > 10) bars = 10;
 		if (bars < 1) bars = total > 0 ? 1 : 0;
 		
 		//Add filled section of health meter
@@ -429,7 +430,7 @@ public class GUI {
 			.append(meterForeground)
 			.append("\">");
 		
-		for(int i = 0; i < 25 - bars; i++) {
+		for(int i = 0; i < 10 - bars; i++) {
 			meter.append("\u25AF");
 		}
 		meter.append("</font></html>");
