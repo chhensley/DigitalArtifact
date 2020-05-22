@@ -13,7 +13,6 @@ import javax.swing.SwingUtilities;
 import chensley.da.ecs.Component;
 import chensley.da.ecs.Entity;
 import chensley.da.ecs.EntityView;
-import chensley.da.ecs.components.Position;
 import chensley.da.ecs.components.Tile;
 import chensley.da.message.Message;
 import chensley.da.message.MessageFactory;
@@ -108,7 +107,7 @@ public class UIListener {
 				ctxt.config().map().height(), view.with(Component.PHYSICS));
 		for(Entity entity : view) {
 			//Don't draw if this is a passible entity and an impassible entity is also in this position
-			if (impassibleMap[entity.position().x()][entity.position().y()] == 0 && 
+			if (impassibleMap[entity.position().x()][entity.position().y()] != 0 && 
 					(!entity.has(Component.PHYSICS) || !entity.physics().isImpassible())) continue;
 			
 			//Otherwise draw this entity
