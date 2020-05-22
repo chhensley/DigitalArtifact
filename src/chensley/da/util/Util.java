@@ -79,11 +79,11 @@ public class Util {
 	 * @return
 	 * 		Map of impassible squares
 	 */
-	public static boolean[][] impassibleMap(int width, int height, EntityView view) {
-		boolean[][] impassibleMap = new boolean[width][height];
+	public static double[][] impassibleMap(int width, int height, EntityView view) {
+		double[][] impassibleMap = new double[width][height];
 		for(Entity entity : view) {
 			if(entity.physics().isImpassible())
-				impassibleMap[entity.position().x()][entity.position().y()] = true;
+				impassibleMap[entity.position().x()][entity.position().y()] = 1.0;
 		}
 		
 		return impassibleMap;

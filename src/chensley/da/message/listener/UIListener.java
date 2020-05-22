@@ -104,11 +104,11 @@ public class UIListener {
 		
 		//Draw entities
 		EntityView view = ctxt.mgr().between(minX, minY, maxX, maxY).with(Component.TILE);
-		boolean[][] impassibleMap = Util.impassibleMap(ctxt.config().map().width(), 
+		double[][] impassibleMap = Util.impassibleMap(ctxt.config().map().width(), 
 				ctxt.config().map().height(), view.with(Component.PHYSICS));
 		for(Entity entity : view) {
 			//Don't draw if this is a passible entity and an impassible entity is also in this position
-			if (impassibleMap[entity.position().x()][entity.position().y()] && 
+			if (impassibleMap[entity.position().x()][entity.position().y()] == 0 && 
 					(!entity.has(Component.PHYSICS) || !entity.physics().isImpassible())) continue;
 			
 			//Otherwise draw this entity
