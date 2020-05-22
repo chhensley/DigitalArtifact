@@ -22,9 +22,10 @@ public class DestroyListener {
 			ctxt.logger().log(Level.INFO, entity.label() + " is killed");
 			entity.setLabel("dead " + entity.label());
 			entity.setTile(ctxt.mgr().factory().tiles().get("splat"));
+			entity.setAI(null);
 			entity.setDestructable(null);
 			entity.setPhysics(null);
-			//entity.setVision(null);
+			entity.setVision(null);
 		});
 	}
 }
