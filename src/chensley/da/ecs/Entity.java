@@ -66,6 +66,8 @@ public class Entity {
 		this.ai = ai;
 	}
 	
+	public AI ai() { return ai; }
+	
 	public void setDestructable(Destructable destructable) {
 		components.set(Component.DESTRUCTABLE.ordinal(), destructable != null);
 		this.destructable = destructable;
