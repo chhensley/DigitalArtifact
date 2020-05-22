@@ -57,10 +57,10 @@ public class MessageFactory {
 	 * @param entity
 	 * 		Entity with an ai component
 	 * @return
-	 * 		ai_state message
+	 * 		message for the entity's current ai state
 	 */
 	public static Message aiState(Entity entity) {
-		Message msg = new Message(Message.AI_STATE);
+		Message msg = new Message(entity.ai().msg());
 		msg.put("entity", entity);
 		return msg;
 	}
