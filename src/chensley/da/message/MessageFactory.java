@@ -52,6 +52,27 @@ public class MessageFactory {
 		return msg;
 	}
 	
+	/**
+	 * Creates a message to process the current AI state of an entity
+	 * @param entity
+	 * 		Entity with an ai component
+	 * @return
+	 * 		ai_state message
+	 */
+	public static Message aiState(Entity entity) {
+		Message msg = new Message(Message.AI_STATE);
+		msg.put("entity", entity);
+		return msg;
+	}
+	
+	/**
+	 * Creates a message destroy an entity
+	 * @param id
+	 * 		Message id to trigger on entity destruction
+	 * @param entity
+	 * 		Entity with destructable component
+	 * @return
+	 */
 	public static Message onDestroy(String id, Entity entity) {
 		Message msg = new Message(id);
 		msg.put("entity", entity);
@@ -71,6 +92,7 @@ public class MessageFactory {
 		return msg;
 	}
 	
+	public static Message aiPreprocess() { return new Message(Message.AI_PREPROCESS); }
 	public static Message appStart() { return new Message(Message.APP_START); }
 	public static Message appUpdate() { return new Message(Message.APP_UPDATE); }
 	public static Message awaitInput() { return new Message(Message.AWAIT_INPUT); }

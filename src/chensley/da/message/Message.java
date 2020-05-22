@@ -15,6 +15,8 @@ public class Message {
 	//Message IDs
 	public static final String ACTION_DAMAGE = "action_damage";
 	public static final String ACTION_MOVE = "action_move";
+	public static final String AI_PREPROCESS = "ai_preprocess";
+	public static final String AI_STATE = "ai_state";
 	public static final String APP_START = "app_start";
 	public static final String APP_UPDATE = "app_update";
 	public static final String AWAIT_INPUT = "await_input";
@@ -44,7 +46,7 @@ public class Message {
 	public String id() { return id; }
 	
 	public void put(String key, Object value) { body.put(key, value); };
-	public void put(String key, int value ) { body.put(key, new Integer(value)); }
+	public void put(String key, int value ) { body.put(key, value); }
 	public Object object(String key) { return body.get(key); }
 	public <T> T object(String key, Class<T> type) throws MessageFormatException {
 		try {
