@@ -37,4 +37,13 @@ public class RandomNumberGenerator {
 	public int nextInt(int min, int max) {
 		return random.nextInt(max -  min + 1) + min;
 	}
+	
+	/**
+	 * Returns a random double with a value between 0.0 & 1.0 inclusive
+	 * @return
+	 * 		double
+	 */
+	public double nextDouble() {
+		return random.nextDouble();
+	}
 }

@@ -35,6 +35,10 @@ map_gen:
    #Minum and maximum numbers of doors/building
    min_doors: 3
    max_doors: 5
+   #Controls generation of hostile gangs
+   num_gangs: 3
+   ganger_probability: 0.4
+   
 update:
    #URL to download latest update
    download_url: 'https://github.com/chhensley/DigitalArtifact/releases/latest/download/digitalartifact.zip'

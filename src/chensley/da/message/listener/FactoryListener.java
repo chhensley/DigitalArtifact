@@ -142,6 +142,42 @@ public class FactoryListener {
 		
 		return center(first, second);
 	}
+	
+	private static Point gangPosition(CityTree tree, Context ctxt) {
+		PartitionTree node = tree;
+		
+		while(node.children().size() > 0) {
+			node = node.children().get(ctxt.rng().nextInt(0, node.children().size() - 1));
+		}
+		
+		CityTree cityNode = (CityTree)node.parent();
+		
+		PartitionTree child0 = cityNode.children().get(0);
+		PartitionTree child1 = cityNode.children().get(1);
+		
+		Point first = null;
+		Point second = null;
+		
+		if(cityNode.isVertical()) {
+			first = new Point(child0.max().x(), child0.min().y());
+			second = new Point(child1.min().x(), child1.max().y());
+		} else {
+			first = new Point(child0.min().x(), child0.max().y());
+			second = new Point(child1.max().x(), child1.min().y());
+		}
+		
+		return center(first, second);
+	}
+	
+	private static void addGang(GameMap map, CityTree node, Context ctxt) {
+		Point position = gangPosition(node, ctxt);
+		System.out.println(position.x() + "," + position.y());
+		
+		for(int dx = -1; dx <= 1; dx++)
+			for(int dy = -1; dy <= 1; dy++)
+				if(ctxt.rng().nextDouble() <= ctxt.config().mapGen().gangerProbability()) 
+					map.set("ganger", position.x() + dx, position.y() + dy);
+	}
 
 	
 	public static void register(MessageManager msgMgr) {
@@ -155,6 +191,9 @@ public class FactoryListener {
 			}
 			Point start = startPosition(tree);
 			gameMap.set("player", start.x(), start.y());
+			
+			for(int i = 0; i < ctxt.config().mapGen().numGangs(); i++)
+				addGang(gameMap, tree, ctxt);
 			
 			ctxt.logger().log(Level.INFO, "mapping location");
 			create(gameMap, ctxt.mgr());

@@ -78,16 +78,22 @@ public class Config {
 		private final MapPartition partition;
 		private final int minDoors;
 		private final int maxDoors;
+		private final int numGangs;
+		private final double gangerProbability;
 		
-		public MapGen(MapPartition partition, int minDoors, int maxDoors) {
+		public MapGen(MapPartition partition, int minDoors, int maxDoors, int numGangs, double gangerProbability) {
 			this.partition = partition;
 			this.minDoors = minDoors;
 			this.maxDoors = maxDoors;
+			this.numGangs = numGangs;
+			this.gangerProbability = gangerProbability;
 		}
 		
 		public MapPartition partition() { return partition; }
 		public int minDoors() { return minDoors; }
 		public int maxDoors() { return maxDoors; }
+		public int numGangs() { return numGangs; }
+		public double gangerProbability() { return gangerProbability; }
 		
 	}
 	
@@ -213,7 +219,9 @@ public class Config {
 		mapGen = new MapGen(
 				partition,
 				mapGenNode.get("min_doors").asInt(),
-				mapGenNode.get("max_doors").asInt()
+				mapGenNode.get("max_doors").asInt(),
+				mapGenNode.get("num_gangs").asInt(),
+				mapGenNode.get("ganger_probability").asDouble()
 		);
 		
 		term = new Terminal(
