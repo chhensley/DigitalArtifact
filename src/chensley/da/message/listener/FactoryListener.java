@@ -171,7 +171,6 @@ public class FactoryListener {
 	
 	private static void addGang(GameMap map, CityTree node, Context ctxt) {
 		Point position = gangPosition(node, ctxt);
-		System.out.println(position.x() + "," + position.y());
 		
 		for(int dx = -1; dx <= 1; dx++)
 			for(int dy = -1; dy <= 1; dy++)
