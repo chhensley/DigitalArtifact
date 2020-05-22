@@ -16,6 +16,7 @@ public class Message {
 	public static final String ACTION_DAMAGE = "action_damage";
 	public static final String ACTION_MOVE = "action_move";
 	public static final String AI_PREPROCESS = "ai_preprocess";
+	public static final String APP_GAMEOVER = "app_gameover";
 	public static final String APP_START = "app_start";
 	public static final String APP_UPDATE = "app_update";
 	public static final String AWAIT_INPUT = "await_input";

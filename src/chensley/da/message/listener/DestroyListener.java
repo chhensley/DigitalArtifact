@@ -8,6 +8,7 @@ package chensley.da.message.listener;
 import java.util.logging.Level;
 
 import chensley.da.ecs.Entity;
+import chensley.da.message.MessageFactory;
 import chensley.da.message.MessageManager;
 
 /**
@@ -26,6 +27,10 @@ public class DestroyListener {
 			entity.setDestructable(null);
 			entity.setPhysics(null);
 			entity.setVision(null);
+		});
+		
+		msgMgr.register("destroy_player", (msg, ctxt)->{
+			ctxt.stack().publish(MessageFactory.appGameOver());
 		});
 	}
 }

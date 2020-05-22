@@ -95,6 +95,7 @@ public class GUI {
 	private final JFrame window;
 	private CanvasPanel termPanel;
 	private JPanel aboutMenu;
+	private JPanel gameOver;
 	private final GUIKeyListener keyListener = new GUIKeyListener();
 	
 	//Builds main game window
@@ -160,6 +161,21 @@ public class GUI {
 		return sidePanel;
 	}
 	
+	private JPanel gameOver(Config config) {
+		JLabel label = new JLabel("GAME OVER!");
+		label.setBackground(config.term().background());
+		label.setForeground(config.term().foreground(2));
+		label.setFont(new Font(config.term().font(), Font.PLAIN, 26));
+		//item.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
+		
+		JPanel gameOver = new JPanel();
+		gameOver.setPreferredSize(new Dimension(config.term().fontSize() * config.term().width() + config.term().fontSize()/2, 
+				config.term().fontSize() * config.term().height() + config.term().fontSize()/2));
+		gameOver.setBackground(config.term().background());
+		gameOver.add(label);
+		return gameOver;
+	}
+	
 	//Builds about menu
 	private JPanel aboutMenu(Config config, GUIFactory factory) {
 		TermMenu menu = factory.menu();
@@ -191,6 +207,7 @@ public class GUI {
 		window = window(config);
 		termPanel = termPanel(config);
 		aboutMenu = aboutMenu(config, factory);
+		gameOver = gameOver(config);
 		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
 		window.getContentPane().add(sidePanel(config), BorderLayout.LINE_END);
 		window.getContentPane().add(factory.menuLabel(config.controls().about() + " for help and to update"), BorderLayout.PAGE_END);
@@ -243,21 +260,29 @@ public class GUI {
 	 */
 	private void resetTerm() {
 		window.getContentPane().remove(aboutMenu);
-		window.getContentPane().remove(termPanel);	
-	}
-	
-	//Shows terminal window
-	public void showTerm() {
-		resetTerm();
-		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
-		window.pack();
-		window.repaint();
+		window.getContentPane().remove(termPanel);
 	}
 	
 	//Shows about menu
 	public void showAbout() {
 		resetTerm();
 		window.getContentPane().add(aboutMenu, BorderLayout.LINE_START);
+		window.pack();
+		window.repaint();
+	}
+	
+	//Shows game over splash
+	public void showGameOver() {
+		resetTerm();
+		window.getContentPane().add(gameOver, BorderLayout.LINE_START);
+		window.pack();
+		window.repaint();
+	}
+	
+	//Shows terminal window
+	public void showTerm() {
+		resetTerm();
+		window.getContentPane().add(termPanel, BorderLayout.LINE_START);
 		window.pack();
 		window.repaint();
 	}

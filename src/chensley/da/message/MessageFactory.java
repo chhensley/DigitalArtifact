@@ -93,6 +93,7 @@ public class MessageFactory {
 	}
 	
 	public static Message aiPreprocess() { return new Message(Message.AI_PREPROCESS); }
+	public static Message appGameOver() { return new Message(Message.APP_GAMEOVER); }
 	public static Message appStart() { return new Message(Message.APP_START); }
 	public static Message appUpdate() { return new Message(Message.APP_UPDATE); }
 	public static Message awaitInput() { return new Message(Message.AWAIT_INPUT); }

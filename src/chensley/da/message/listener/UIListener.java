@@ -126,6 +126,18 @@ public class UIListener {
 	}
 	
 	public static void register(MessageManager msgMgr) {
+		msgMgr.register(Message.APP_GAMEOVER, (msg, ctxt)->{
+			ctxt.logger().log(Level.INFO, "Game Over");
+			gui.showGameOver();
+			for(;;) {
+				try {
+					Thread.sleep(6000);
+				} catch (InterruptedException e) {
+					//Do nothing
+				}
+			}
+		});
+		
 		msgMgr.register(Message.APP_START, (msg, ctxt)->{
 			gui = new GUI(ctxt.config(), ctxt.logger());
 			SwingUtilities.invokeLater(gui::launch);

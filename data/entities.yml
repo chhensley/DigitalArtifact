@@ -36,6 +36,9 @@ ganger:
 player:
    label: 'player'
    tile: 'player'
+   destructable:
+      hit_points: 12
+      on_destroy: 'destroy_player'
    physics:
       impassible: true
    vision:
