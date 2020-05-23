@@ -36,6 +36,23 @@ public abstract class Factory <T>{
 		this.logger = logger;
 	}
 	
+	//Functions for deserializing individual node with default value
+	protected boolean get(JsonNode node, String field, boolean defaultValue) {
+		return node.has(field) ? node.get(field).asBoolean(defaultValue) : defaultValue;
+	}
+	
+	protected double get(JsonNode node, String field, double defaultValue) {
+		return node.has(field) ? node.get(field).asDouble(defaultValue) : defaultValue;
+	}
+	
+	protected int get(JsonNode node, String field, int defaultValue) {
+		return node.has(field) ? node.get(field).asInt(defaultValue) : defaultValue;
+	}
+	
+	protected String get(JsonNode node, String field, String defaultValue) {
+		return node.has(field) ? node.get(field).asText(defaultValue) : defaultValue;
+	}
+	
 	/**
 	 * Loads a single external data file
 	 * @param paths

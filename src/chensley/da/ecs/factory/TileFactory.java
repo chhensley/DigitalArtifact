@@ -26,10 +26,10 @@ public class TileFactory extends Factory<Tile>{
 	protected Tile deserialize(JsonNode node) {
 		final String icon = node.get("icon").asText();
 		final String colorId = node.get("color").asText();
-		final double alpha = node.get("alpha") != null ? node.get("alpha").asDouble() : 1.0;
-		final double fowAlpha = node.get("fow_alpha") != null ? node.get("fow_alpha").asDouble() : 0.0;
-		final double xOffset = node.get("x_offset") != null ? node.get("x_offset").asDouble() : 0.0;
-		final double yOffset = node.get("y_offset") != null ? node.get("y_offset").asDouble() : 0.0;
+		final double alpha = get(node, "alpha", 1.0);
+		final double fowAlpha = get(node, "fow_alpha", 0.0);
+		final double xOffset = get(node, "x_offset", 0.0);
+		final double yOffset = get(node, "y_offset", 0.0);
 		
 		if(icon == null || colorId == null) {
 			logger.log(Level.SEVERE, "invalid tile definition: {0}", node);
