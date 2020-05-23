@@ -5,12 +5,17 @@
  **/
 package chensley.da.ui;
 
+import java.awt.AWTException;
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.Robot;
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -115,19 +120,9 @@ public class GUIFactory {
 	 * @return
 	 * 		Menu item component
 	 */
+	@SuppressWarnings("deprecation")
 	public JLabel menuItem(String icon, String option, String description, int keyCode) {
-		String key = KeyEvent.getKeyText(keyCode);
-		StringBuilder content = new StringBuilder("[")
-				.append(key)
-				.append("] ")
-				.append(icon)
-				.append(" ")
-				.append(option.toUpperCase());
-		if (description != null) {
-			content.append("|").append(description);
-		}
-		
-		JLabel item = new JLabel(content.toString());
+		MenuItem item = new MenuItem(icon, option, description, keyCode);
 		item.setFont(new Font(config.term().font(), Font.PLAIN, config.term().fontSize()));
 		item.setForeground(config.term().foreground(1));
 		item.setBackground(config.term().background());
